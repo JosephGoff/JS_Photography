@@ -74,3 +74,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+.hover-dim:hover {
+  filter: brightness(0.75);
+}
+
+.dim {
+  filter: brightness(0.75);
+}

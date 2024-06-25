@@ -12,9 +12,8 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-background1">
-        {/* <div className="flex justify-between items-center pr-4 h-[60px] sm:h-[65px] md:h-[70px] lg:h-[75px] bg-background1" style={{borderBottom: "1px solid black", zIndex: 999}}> */}
-        <div className="flex justify-between items-center pr-4 bg-background1" style={{height: "60px", borderBottom: "1px solid black", zIndex: 999}}>
+      <nav style={{position: "fixed", zIndex: 999, width: "100%"}}>
+        <div className="flex justify-between items-center pr-4 bg-background1" style={{height: "60px", borderBottom: "1px solid black"}}>
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="ml-6 absolute md:hidden flex items-center"
@@ -30,7 +29,7 @@ const Navbar = () => {
                 transition: 'opacity 0.4s ease',
               }}
             >
-              <div className="sm:w-[42px] w-[37px] flex flex-col gap-[4.1px] sm:gap-[4.8px]">
+              <div className="w-[37px] flex flex-col gap-[4.1px]">
                 <div style={{height: "2px", width: "100%", backgroundColor: "black"}}></div>
                 <div style={{height: "2px", width: "100%", backgroundColor: "black"}}></div>
                 <div style={{height: "2px", width: "100%", backgroundColor: "black"}}></div>
@@ -71,7 +70,7 @@ const Navbar = () => {
 
           <div className={`justify-center items-center absolute flex h-[60px] sm:h-[65px] md:h-[70px] lg:h-[75px]`} style={{width: "100vw", pointerEvents: "none"}}>
             <Link href="/">
-              <div style={{width: "150px", height: "60px", position: "relative", pointerEvents: "all"}}>
+              <div style={{width: "130px", height: "60px", position: "relative", pointerEvents: "all"}}>
                 <Image
                   src={appData.baseURL + "jessshulman.png"} 
                   alt="signature"
@@ -83,9 +82,9 @@ const Navbar = () => {
           </div>
 
           <div className={`hidden md:flex`}>
-            <Link className="text-black nav-link" href="/shop">
+            <a className="text-black nav-link" href="https://www.redbubble.com/people/jessshuly/shop?asc=u">
               Shop
-            </Link>
+            </a>
             <Link className="text-black nav-link" href="/services">
               Services
             </Link>
@@ -98,7 +97,7 @@ const Navbar = () => {
 
        {isOpen && (
           <div style={{zIndex: 900}} className="app__navbar-smallscreen_overlay flex__center slide-bottom">
-            <TfiClose color="#6493A8" fontSize={27} className="overlay__close" onClick={() => setIsOpen(false)} />
+            {/* <TfiClose color="#6493A8" fontSize={27} className="overlay__close" onClick={() => setIsOpen(false)} /> */}
             <ul className="app__navbar-smallscreen_links">
               <li><a href="#" onClick={() => setIsOpen(false)}>Home</a></li>
               <li><a href="#" onClick={() => setIsOpen(false)}>About</a></li>
@@ -110,8 +109,8 @@ const Navbar = () => {
         {/* <div style={{zIndex: 999, pointerEvents: isOpen? "all" : "none", opacity: isOpen? 1 : 0, transition: 'opacity 0.8s ease'}} className="w-[100vw] h-[100px] absolute bg-red-400"></div> */}
       </nav>
 
-      {/* <div className="flex justify-between items-center pr-4 h-[60px] sm:h-[65px] md:h-[70px] lg:h-[75px]" style={{opacity: 0}}>
-      </div> */}
+      <div style={{opacity: 0, width: "100%", height: 60}}>
+      </div>
     </>
   );
 };
