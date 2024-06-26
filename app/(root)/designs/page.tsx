@@ -10,8 +10,9 @@ const Designs = () => {
   const imageRef = useRef<HTMLDivElement>(null);
   const tabletRef = useRef<HTMLDivElement>(null);
   const tabletImageRef = useRef<HTMLImageElement>(null);
-  // const imageWidth = 2168
-  // const imageHeight = 2464
+  const fixedViewRef = useRef<HTMLImageElement>(null);
+  const fixedViewImageRef = useRef<HTMLImageElement>(null);
+
   const imageWidth = 2157
   const imageHeight = 2467
 
@@ -22,9 +23,11 @@ const Designs = () => {
   const [whiteTabletWidth, setWhiteTabletWidth] = useState(200)
   const [percentThereValue, setPercentThereValue] = useState(0)
   const [page2, setPage2] = useState(false)
+  const [page, setPage] = useState(0)
   const page2Ref = useRef(false)
-  const [page2MarginTop, setPage2MarginTop] = useState(0)
-  const [endScroll, setEndScroll] = useState(0)
+  const [showPage2, setShowPage2] = useState(false)
+  const lastScrollRef = useRef(0)
+  const fixedRef = useRef(false)
 
   useEffect(() => {
     // When page loads
@@ -50,31 +53,19 @@ const Designs = () => {
       tablet1.style.minWidth = `${currentWidthOfTablet}px`
       tablet1.style.minHeight = `${currentWidthOfTablet * (tabletHeight / tabletWidth)}px`
       tablet1.style.maxHeight = `${screenHeight}px`
-
-      //       2 points of reference -> beginning width of tablet | 0
-      //                         width of tablet when 
-
-      // let finalScroll = 150
-      // scroll = 0
-      // widthOfTablet = newTabletWidth
-
-      // scroll = 150
-      // widthOfTablet = screenHeight * (tabletWidth / tabletHeight)
-
-      // if (widthOfTablet < window.innerWidth) {
-      //   y = (widthOfTablet - newTabletWidth) x + 
-      // }
-
-
     }
 
     // Set min width of image
     if (image1) {
-      // image1.style.maxWidth = `${finalHeight * whratio}px`
       image1.style.minWidth = "100vw"
     }
-
   }, [])
+
+  useEffect(() => {
+    if (imageRef && imageRef.current) {
+      imageRef.current.style.minWidth = "100vw"
+    }
+  }, [page2])
 
   useEffect(() => {
     const handleResize = () => {
@@ -88,8 +79,8 @@ const Designs = () => {
         const currentWidthPercent = window.innerWidth / screenHeight > whratio ? 100 : ((screenHeight * whratio) / window.innerWidth) * 100
         const differenceToMakeUp = finalWidthPercent - currentWidthPercent
         imageRef.current.style.width = `${currentWidthPercent + (percentThereValue * differenceToMakeUp)}vw`
-
       }
+
       // Set the tablet width and height
       if (tablet1) {
         const currentImageWidth = window.innerWidth / screenHeight > whratio ? window.innerWidth : (screenHeight * whratio)
@@ -116,6 +107,7 @@ const Designs = () => {
     };
   }, [percentThereValue]);
 
+
   useEffect(() => {
     const screenHeight = window.innerHeight - 60;
     const image1 = imageRef.current
@@ -124,8 +116,29 @@ const Designs = () => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const maxScroll = 150
-      if (image1) {
-        const percentThere = scrollY / maxScroll
+
+      if (scrollY < 10 && page2Ref && page2Ref.current) {
+        if (fixedViewRef.current) {
+          fixedViewRef.current.style.position = "fixed"
+          fixedViewRef.current.style.marginTop = "0px"
+        }
+        setPage2(false)
+        if (lastScrollRef) {
+          window.scrollTo(0, lastScrollRef.current);
+        }
+        setTimeout(() => {
+          setShowPage2(false)
+          setPage(0)
+          if (fixedViewRef.current) {
+            fixedViewRef.current.style.position = "relative"
+            fixedViewRef.current.style.marginTop = "10px"
+          }
+          page2Ref.current = false
+        }, 800);
+      }
+
+      if (image1 && page2Ref && page2Ref.current === false) {
+        let percentThere = scrollY / maxScroll
         setPercentThereValue(percentThere)
 
         // Set the image width
@@ -137,35 +150,37 @@ const Designs = () => {
 
         // Set the tablet width and height
         if (tablet1) {
-          const currentImageWidth = window.innerWidth / screenHeight > whratio ? window.innerWidth : (screenHeight * whratio)
-          const finalTabletWidth = screenHeight * (tabletWidth / tabletHeight)
-          const currentWidthOfTablet = (currentImageWidth * (tabletWidth / imageWidth))
-          const tabletDifferenceToMakeUp = finalTabletWidth - (currentImageWidth * (tabletWidth / imageWidth))
-          const newTabletWidth = currentWidthOfTablet + (percentThere * tabletDifferenceToMakeUp)
+          let currentImageWidth = window.innerWidth / screenHeight > whratio ? window.innerWidth : (screenHeight * whratio)
+          let finalTabletWidth = screenHeight * (tabletWidth / tabletHeight)
+          let currentWidthOfTablet = (currentImageWidth * (tabletWidth / imageWidth))
+          let tabletDifferenceToMakeUp = finalTabletWidth - (currentImageWidth * (tabletWidth / imageWidth))
+          let newTabletWidth = currentWidthOfTablet + (percentThere * tabletDifferenceToMakeUp)
           tablet1.style.width = `${newTabletWidth}px`
           tablet1.style.height = `${newTabletWidth * (tabletHeight / tabletWidth)}px`
           setWhiteTabletWidth(newTabletWidth)
 
-          console.log(page2Ref.current)
           if (percentThere > 1 && newTabletWidth > window.innerWidth) {
+            let testValidScroll = scrollY
+            while (percentThere > 1 && newTabletWidth > window.innerWidth) {
+              testValidScroll -= 0.1
+              percentThere = testValidScroll / maxScroll
+              currentImageWidth = window.innerWidth / screenHeight > whratio ? window.innerWidth : (screenHeight * whratio)
+              finalTabletWidth = screenHeight * (tabletWidth / tabletHeight)
+              currentWidthOfTablet = (currentImageWidth * (tabletWidth / imageWidth))
+              tabletDifferenceToMakeUp = finalTabletWidth - (currentImageWidth * (tabletWidth / imageWidth))
+              newTabletWidth = currentWidthOfTablet + (percentThere * tabletDifferenceToMakeUp)
+            }
+            if (lastScrollRef) { lastScrollRef.current = testValidScroll }
+
+
             if (page2Ref && !page2Ref.current) {
               page2Ref.current = true
+              setShowPage2(true)
               setTimeout(() => {
-                console.log(window.scrollY)
-                // tablet1.style.marginTop = `${window.scrollY}px`
-                // window.scrollTo(0, 0);
-
+                window.scrollTo(0, 10);
                 setPage2(true)
-
-              }, 1000);
-            }
-          } else {
-            if (page2Ref && page2Ref.current) {
-              page2Ref.current = false
-              // tablet1.style.marginTop = `0px`
-              setTimeout(() => {
-                setPage2(false)
-              }, 1000);
+                setPage(1)
+              }, 800);
             }
           }
         }
@@ -195,7 +210,12 @@ const Designs = () => {
       if (timeElapsed < duration) {
         requestAnimationFrame(step);
       } else {
-        setPage2(true)
+        setShowPage2(true)
+
+        setTimeout(() => {
+          window.scrollTo(0, 10);
+          setPage2(true)
+        }, 1000);
       }
     };
 
@@ -206,6 +226,7 @@ const Designs = () => {
     const tabletImage1 = tabletImageRef.current;
 
     const handleClick = () => {
+      console.log(1)
       if ((window.innerHeight - 60) / window.innerWidth >= tabletHeight / tabletWidth) {
         smoothScrollTo(151, 1000);
       } else {
@@ -225,12 +246,13 @@ const Designs = () => {
         tabletImage1.removeEventListener('click', handleClick);
       }
     };
-  }, []);
+  }, [page2, showPage2]);
 
   return (
     <>
       <Navbar />
-      {!page2 && <div style={{ zIndex: 101 }} className="h-[calc(100vh-60px)] w-[100vw] flex items-center justify-center md:flex-row flex-col bg-background1">
+      {/* Background Ipad Image */}
+      {!page2 && <div style={{ display: "flex", opacity: page === 0 ? 1 : 0, zIndex: 101 }} className="h-[calc(100vh-60px)] w-[100vw] flex items-center justify-center md:flex-row flex-col bg-background1">
         <div ref={imageRef} style={{ position: 'fixed', width: '100vw', height: 'calc(100vh - 60px)' }}>
           <Image
             src={appData.baseURL + 'designs/ipad.png'}
@@ -241,14 +263,11 @@ const Designs = () => {
         </div>
       </div>}
 
-      <div style={{ top: 60 }}>
-        <div style={{ width: "100vw", height: "10px", backgroundColor: "red" }}>
-        </div>
-        <div style={{ width: "100vw", height: "1500px", backgroundColor: "pink" }}>
-        </div>
-      </div>
+      {/* BG Scrollable  */}
+      {!page2 && <div style={{ opacity: page === 0 ? 1 : 0, width: "100vw", height: "700px" }}></div>}
 
-      {!page2 && <div style={{ width: "100vw", height: "calc(100vh - 60px)", position: "fixed", top: 60, display: "flex", justifyContent: "center", alignItems: "center" }}>
+      {/* Tablet */}
+      {!page2 && <div style={{ display: "flex", opacity: page === 0 ? 1 : 0, width: "100vw", height: "calc(100vh - 60px)", position: "fixed", top: 60, justifyContent: "center", alignItems: "center" }}>
         <div
           ref={tabletRef}
           style={{
@@ -257,7 +276,7 @@ const Designs = () => {
             height: `${whiteTabletWidth * (tabletHeight / tabletWidth)}px`,
             backgroundColor: "white",
             borderRadius: `${whiteTabletWidth * 10 / tabletWidth}px`,
-            transition: "border-radius 1s ease",
+            transition: "border-radius 0.8s ease",
           }}>
           <div style={{
             width: "100%",
@@ -267,25 +286,33 @@ const Designs = () => {
           }}>
             <div style={{ width: "100%", height: "100%", position: "relative" }}>
               <Image
-                className={page2 ? "dim" : "hover-dim"}
+                className={percentThereValue > 0.9 ? "dim" : "hover-dim"}
                 ref={tabletImageRef}
                 style={{
                   cursor: page2 ? "auto" : "pointer",
                   borderRadius: percentThereValue > 1 ? whiteTabletWidth < window.innerWidth ? `${whiteTabletWidth * 8 / tabletWidth}px` : 0 : `${whiteTabletWidth * 8 / tabletWidth}px`,
-                  transition: "border-radius 1s ease",
+                  transition: "border-radius 0.8s ease",
                 }}
                 src={appData.baseURL + 'designs/ipad_background.png'}
                 alt="contact"
                 layout="fill"
                 objectFit="cover"
               />
-              <div style={{ pointerEvents: "none", maxWidth: "90vw", position: "absolute", zIndex: 103, width: "90%", height: "90%", marginTop: "5%", marginLeft: "5%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <div style={{
+                position: "absolute",
+                pointerEvents: "none",
+                zIndex: 103,
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center"
+              }}>
                 <Image
-                  style={{ maxWidth: "90vw" }}
+                  style={{ maxWidth: "90%" }}
                   src={appData.baseURL + 'designs/my_designs.png'}
                   alt="contact"
                   layout="responsive"
-                  objectFit="cover"
                   width={500}
                   height={500}
                 />
@@ -294,6 +321,63 @@ const Designs = () => {
           </div>
         </div>
       </div>}
+
+      {/* Page 2 */}
+      {showPage2 && <>
+        <div
+          style={{ position: "absolute", top: 60, opacity: page === 0 ? 0 : 1, width: "100vw", backgroundColor: "white", height: "calc(100vh - 60px)", }}>
+          <div
+            ref={fixedViewRef}
+            style={{
+              width: "100vw",
+              height: "calc(100vh - 60px)",
+              marginTop: "10px",
+              position: "relative",
+              padding: "10px"
+            }}>
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              overflow: "hidden",
+              height: "100%",
+              padding: "10px"
+            }}>
+              <Image
+                ref={fixedViewImageRef}
+                className="dim"
+                style={{
+                  // padding: page2 === false && page2Ref && page2Ref.current === false ? "10px" : 0,
+                  // borderRadius: page2 === false && page2Ref && page2Ref.current === false ? `${whiteTabletWidth * 14 / tabletWidth}px` : 0,
+                  transition: "padding 0.8s ease, border 0.8s ease",
+                }}
+                src={appData.baseURL + 'designs/ipad_background.png'}
+                alt="designs"
+                layout="fill"
+                objectFit="cover"
+                objectPosition='center'
+              />
+              <div style={{ zIndex: 104, height: "100%", width: "100vw", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <div style={{ pointerEvents: "none", maxWidth: "90vw", position: "absolute", zIndex: 103, width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  <Image
+                    style={{ maxWidth: "90vw" }}
+                    src={appData.baseURL + 'designs/my_designs.png'}
+                    alt="contact"
+                    layout="responsive"
+                    objectFit="cover"
+                    width={500}
+                    height={500}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style={{ width: "100vw", height: "2000px" }}></div>
+      </>
+      }
+
+
     </>
   );
 };
