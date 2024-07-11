@@ -27,11 +27,17 @@ export default function Home() {
       <div>
         <Navbar />
         <Hero />
-        <Section1/>
+        {/* <div className="flex row" style={{width: "100vw", height: "12px"}}>
+          <div style={{width: "25vw", height: "100%", backgroundColor: "#C3E885"}}></div>
+          <div style={{width: "25vw", height: "100%", backgroundColor: "#FFD6E1"}}></div>
+          <div style={{width: "25vw", height: "100%", backgroundColor: "#F6E4B1"}}></div>
+          <div style={{width: "25vw", height: "100%", backgroundColor: "#FFD0A2"}}></div>
+        </div> */}
+        {/* <Section1/> */}
         {/* <StoryAwaits/> */}
-        <Letters/>
+        {/* <Letters/>
         <Carousel />
-        <LayoutGrid1 />
+        <LayoutGrid1 /> */}
       </div>
     </main>
   );

@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar/Navbar';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import appData from "../../../app-data.json";
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import "../../globals.css"
 
 const Designs = () => {
@@ -28,6 +29,7 @@ const Designs = () => {
   const [showPage2, setShowPage2] = useState(false)
   const lastScrollRef = useRef(0)
   const fixedRef = useRef(false)
+  const bodyRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     // When page loads
@@ -117,7 +119,8 @@ const Designs = () => {
       const scrollY = window.scrollY;
       const maxScroll = 150
 
-      if (scrollY < 10 && page2Ref && page2Ref.current) {
+      if (scrollY < 1 && page2Ref && page2Ref.current) {
+        if (bodyRef.current) { disableBodyScroll(bodyRef.current) }
         if (fixedViewRef.current) {
           fixedViewRef.current.style.position = "fixed"
           fixedViewRef.current.style.marginTop = "0px"
@@ -125,15 +128,17 @@ const Designs = () => {
         setPage2(false)
         if (lastScrollRef) {
           window.scrollTo(0, lastScrollRef.current);
-        }
+        } 
         setTimeout(() => {
+          if (fixedViewRef.current) {
+            fixedViewRef.current.style.opacity = "0"
+            fixedViewRef.current.style.position = "absolute"
+            fixedViewRef.current.style.marginTop = "1px"
+          }
           setShowPage2(false)
           setPage(0)
-          if (fixedViewRef.current) {
-            fixedViewRef.current.style.position = "relative"
-            fixedViewRef.current.style.marginTop = "10px"
-          }
           page2Ref.current = false
+          if (bodyRef.current) { enableBodyScroll(bodyRef.current) }
         }, 800);
       }
 
@@ -174,12 +179,14 @@ const Designs = () => {
 
 
             if (page2Ref && !page2Ref.current) {
+              if (bodyRef.current) { disableBodyScroll(bodyRef.current) }
               page2Ref.current = true
               setShowPage2(true)
               setTimeout(() => {
-                window.scrollTo(0, 10);
+                window.scrollTo(0, 1);
                 setPage2(true)
                 setPage(1)
+                if (bodyRef.current) { enableBodyScroll(bodyRef.current) }
               }, 800);
             }
           }
@@ -213,7 +220,7 @@ const Designs = () => {
         setShowPage2(true)
 
         setTimeout(() => {
-          window.scrollTo(0, 10);
+          window.scrollTo(0, 1);
           setPage2(true)
         }, 1000);
       }
@@ -249,7 +256,7 @@ const Designs = () => {
   }, [page2, showPage2]);
 
   return (
-    <>
+    <section ref={bodyRef} className="hide-scroll">
       <Navbar />
       {/* Background Ipad Image */}
       {!page2 && <div style={{ display: "flex", opacity: page === 0 ? 1 : 0, zIndex: 101 }} className="h-[calc(100vh-60px)] w-[100vw] flex items-center justify-center md:flex-row flex-col bg-background1">
@@ -325,14 +332,12 @@ const Designs = () => {
       {/* Page 2 */}
       {showPage2 && <>
         <div
-          style={{ position: "absolute", top: 60, opacity: page === 0 ? 0 : 1, width: "100vw", backgroundColor: "white", height: "calc(100vh - 60px)", }}>
+          style={{ position: "absolute", top: 60, opacity: page === 0 ? 0 : 1, width: "100vw", height: "calc(100vh - 60px)", }}>
           <div
-            ref={fixedViewRef}
             style={{
               width: "100vw",
               height: "calc(100vh - 60px)",
-              marginTop: "10px",
-              position: "relative",
+              position: "fixed",
               padding: "10px"
             }}>
             <div style={{
@@ -341,15 +346,15 @@ const Designs = () => {
               justifyContent: "center",
               overflow: "hidden",
               height: "100%",
-              padding: "10px"
+              // padding: "10px"
             }}>
               <Image
-                ref={fixedViewImageRef}
+                // ref={fixedViewImageRef}
                 className="dim"
                 style={{
                   // padding: page2 === false && page2Ref && page2Ref.current === false ? "10px" : 0,
                   // borderRadius: page2 === false && page2Ref && page2Ref.current === false ? `${whiteTabletWidth * 14 / tabletWidth}px` : 0,
-                  transition: "padding 0.8s ease, border 0.8s ease",
+                  // transition: "padding 0.8s ease, border 0.8s ease",
                 }}
                 src={appData.baseURL + 'designs/ipad_background.png'}
                 alt="designs"
@@ -357,7 +362,7 @@ const Designs = () => {
                 objectFit="cover"
                 objectPosition='center'
               />
-              <div style={{ zIndex: 104, height: "100%", width: "100vw", display: "flex", justifyContent: "center", alignItems: "center" }}>
+              {/* <div style={{ zIndex: 104, height: "100%", width: "100vw", display: "flex", justifyContent: "center", alignItems: "center" }}>
                 <div style={{ pointerEvents: "none", maxWidth: "90vw", position: "absolute", zIndex: 103, width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                   <Image
                     style={{ maxWidth: "90vw" }}
@@ -369,7 +374,7 @@ const Designs = () => {
                     height={500}
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -377,8 +382,80 @@ const Designs = () => {
       </>
       }
 
+      {showPage2 && <div
+        ref={fixedViewRef}
+        style={{
+          position: "absolute",
+          top: 60,
+          opacity: page === 0 ? 0 : 1,
+          width: "100vw",
+          marginTop: "1px",
+        }}>
+        <div
+          style={{
+            width: "100vw",
+            height: "calc(100vh - 60px)",
+          }}>
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            overflow: "hidden",
+            height: "100%",
+          }}>
+            <div style={{ zIndex: 104, height: "100%", width: "100vw", display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <div style={{ pointerEvents: "none", maxWidth: "90vw", position: "absolute", zIndex: 103, width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Image
+                  style={{ maxWidth: "90vw" }}
+                  src={appData.baseURL + 'designs/my_designs.png'}
+                  alt="contact"
+                  layout="responsive"
+                  objectFit="cover"
+                  width={500}
+                  height={500}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
 
-    </>
+
+        <div style={{ width: "100vw", height: "100vh", position: "relative" }}>
+          <Image
+            src={appData.baseURL + 'img1.jpg'}
+            alt="designs image"
+            layout="fill"
+            objectFit="cover"
+            objectPosition='center'
+          />
+        </div>
+
+
+        <div style={{ width: "100vw", height: "100vh", position: "relative" }}>
+          <Image
+            src={appData.baseURL + 'img1.jpg'}
+            alt="designs image"
+            layout="fill"
+            objectFit="cover"
+            objectPosition='center'
+          />
+        </div>
+
+
+        <div style={{ width: "100vw", height: "100vh", position: "relative" }}>
+          <Image
+            src={appData.baseURL + 'img1.jpg'}
+            alt="designs image"
+            layout="fill"
+            objectFit="cover"
+            objectPosition='center'
+          />
+        </div>
+      </div>
+      }
+
+
+    </section>
   );
 };
 
