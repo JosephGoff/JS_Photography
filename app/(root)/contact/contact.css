@@ -1,0 +1,63 @@
+.hi_there {
+  height: 500px;
+  max-height: 70vw;
+  overflow: visible;
+  animation: filter1 3s ease forwards;
+  animation-delay: 0s;
+}
+
+#svg_hi {
+  stroke-dasharray: 3938.47;
+  stroke-dashoffset: 3938.47;
+  animation: draw 1.2s ease-in-out forwards;
+  animation-delay: 1s;
+}
+
+#svg_there {
+  stroke-dasharray: 10212.07;
+  stroke-dashoffset: 10212.07;
+  animation: draw 1.6s ease-in-out forwards;
+  animation-delay: 2.2s;
+}
+
+#svg_i {
+  stroke-dasharray: 66.92;
+  stroke-dashoffset: 66.92;
+  animation: draw 0.3s ease-in-out forwards;
+  animation-delay: 1.9s;
+}
+
+#svg_ex {
+  stroke-dasharray: 660;
+  stroke-dashoffset: 660;
+  animation: draw 0.4s ease-in-out forwards;
+  animation-delay: 3.8s;
+}
+
+#svg_ex_dot {
+  stroke-dasharray: 83.37;
+  stroke-dashoffset: 83.37;
+  animation: draw 0.3s ease-in-out forwards;
+  animation-delay: 4.3s;
+}
+
+#svg_cross {
+  stroke-dasharray: 726.22;
+  stroke-dashoffset: 726.22;
+  animation: draw 0.5s ease-in-out forwards;
+  animation-delay: 2.9s;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes filter1 {
+  to {
+    filter: drop-shadow(0 0 5px white);
+  }
+}
+
+

@@ -8,7 +8,44 @@ const Photos = () => {
   return (
     <>
       <Navbar />
-      <div className="h-[calc(100vh-60px)] w-[100vw]">
+       <div
+        style={{
+          width: "100vw",
+          height: "calc(100vh - 60px)",
+          display: "flex",
+          overflow: 'hidden',
+          zIndex: 101,
+          position: 'relative',
+          // backgroundColor: "#E4E2DD"
+          backgroundColor: "#D7CDBE"
+        }}
+      >
+        <Image
+          className="hidden md:block"
+          src={appData.baseURL + "photos/photos1.png"}
+          alt="header"
+          style={{
+            position: 'absolute', 
+            top: 0,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            minHeight: "calc(100vh - 60px)"
+          }}
+          objectFit="contain" 
+          objectPosition="center"
+          layout="fill"
+        />
+        <Image
+          className="block md:hidden"
+          src={appData.baseURL + "photos/photos1.png"}
+          alt="header"
+          style={{ minHeight: "calc(100vh - 60px) ", maxHeight: "calc(100vh - 60px) "}}
+          layout="fill"
+          objectFit="cover"
+          objectPosition="center"
+        />
+      </div>
+      {/* <div className="h-[calc(100vh-60px)] w-[100vw]">
         <div className="w-[100vw] md:w-[50vw]" style={{ zIndex: 101, position: 'fixed', height: 'calc(100vh - 60px)', overflow: 'hidden', overflowX: "hidden" }}>
           <Image
             src={appData.baseURL + 'photos/photos_bg.png'}
@@ -59,7 +96,7 @@ const Photos = () => {
 
         <div className="w-0 md:w-[50vw] ml-[50vw]" style={{height: "100%", backgroundColor: "#FFF"}}> 
         </div>
-      </div>
+      </div> */}
     </>
   )
 }

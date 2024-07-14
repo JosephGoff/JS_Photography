@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar/Navbar'
 import Image from 'next/image'
 import React from 'react'
 import appData from "../../../app-data.json";
+import "./services.css"
 
 const Services = () => {
   return (

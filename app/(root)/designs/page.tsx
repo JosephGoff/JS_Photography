@@ -67,6 +67,13 @@ const Designs = () => {
     if (imageRef && imageRef.current) {
       imageRef.current.style.minWidth = "100vw"
     }
+    if (tabletRef.current) {
+      const screenHeight = window.innerHeight - 60;
+      const currentImageWidth = window.innerWidth / screenHeight > whratio ? window.innerWidth : (screenHeight * whratio)
+      const currentWidthOfTablet = (currentImageWidth * (tabletWidth / imageWidth))
+      tabletRef.current.style.minWidth = `${currentWidthOfTablet}px`
+      tabletRef.current.style.minHeight = `${currentWidthOfTablet * (tabletHeight / tabletWidth)}px`
+    }
   }, [page2])
 
   useEffect(() => {
@@ -98,7 +105,6 @@ const Designs = () => {
         // Set new min width and height
         tablet1.style.minWidth = `${currentWidthOfTablet}px`
         tablet1.style.minHeight = `${currentWidthOfTablet * (tabletHeight / tabletWidth)}px`
-
       }
     };
 
@@ -107,6 +113,20 @@ const Designs = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
+  }, []);
+
+
+
+    useEffect(() => {
+    const screenHeight = window.innerHeight - 60;
+    if (imageRef.current) {
+      // Set the image width
+      const finalHeight = ((imageHeight / tabletHeight) * screenHeight)
+      const finalWidthPercent = ((whratio * finalHeight) / window.innerWidth) * 100
+      const currentWidthPercent = window.innerWidth / screenHeight > whratio ? 100 : ((screenHeight * whratio) / window.innerWidth) * 100
+      const differenceToMakeUp = finalWidthPercent - currentWidthPercent
+      imageRef.current.style.width = `${currentWidthPercent + (percentThereValue * differenceToMakeUp)}vw`
+    }
   }, [percentThereValue]);
 
 
