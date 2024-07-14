@@ -22,23 +22,22 @@ const Navbar = () => {
   const [currentRoute, setCurrentRoute] = useState("/");
   const router = usePathname()
 
-  useEffect(() => {
-    setCurrentRoute(router)
-  }, [router])
+  // useEffect(() => {
+  //   setCurrentRoute(router)
+  // }, [router])
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 760) {
-        closeIsOpen(false)
-      }
-    };
+  // useEffect(() => {
+  //   const handleNavResize = () => {
+  //     if (window.innerWidth >= 760) {
+  //       closeIsOpen(false)
+  //     }
+  //   };
 
-    window.addEventListener('resize', handleResize); // Fix typo here
-    handleResize();
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  //   window.addEventListener('resize', handleNavResize); // Fix typo here
+  //   return () => {
+  //     window.removeEventListener('resize', handleNavResize);
+  //   };
+  // }, []);
 
   function closeIsOpen(newVal: boolean) {
     if (newVal) {

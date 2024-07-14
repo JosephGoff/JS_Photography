@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Varela+Round&display=swap');
+
+
 .hi_there {
   height: 500px;
   max-height: 70vw;
@@ -60,4 +63,11 @@
   }
 }
 
+
+
+.input_fonts {
+  font-family: "Gloria Hallelujah";
+  font-weight: 400;
+  font-style: normal;
+}
 

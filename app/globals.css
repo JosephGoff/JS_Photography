@@ -80,6 +80,10 @@
   filter: brightness(0.75);
 }
 
+.hover-dim2:hover {
+  filter: brightness(0.85);
+}
+
 .dim {
   filter: brightness(0.75);
 }
@@ -92,3 +96,20 @@
 .hide-scroll::-webkit-scrollbar {
   display: none; /* Chrome, Safari, and Opera */
 }
+
+
+
+/* @font-face {
+  font-family: 'Gloria Hallelujah';
+  src: url('/public/assets/fonts/Gloria_Hallelujah/GloriaHallelujah-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Varela Round';
+  src: url('/fonts/Varela_Round/Varela_Round.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+} */
