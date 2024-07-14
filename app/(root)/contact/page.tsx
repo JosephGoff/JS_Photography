@@ -479,7 +479,7 @@ const Contact = () => {
         >
           <Image
             className="hidden lg:block"
-            src={appData.baseURL + "contact/contact_bg2.png"}
+            src={appData.S3_base_URL + "contact/contact_bg2.png"}
             alt="header"
             style={{
               position: "absolute",
@@ -494,7 +494,7 @@ const Contact = () => {
           />
           <Image
             className="block lg:hidden"
-            src={appData.baseURL + "contact/contact_bg2.png"}
+            src={appData.S3_base_URL + "contact/contact_bg2.png"}
             alt="header"
             style={{
               minHeight: "calc(100vh - 60px) ",

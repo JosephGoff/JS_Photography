@@ -1,5 +1,6 @@
 {
   "baseURL": "/assets/",
+  "S3_base_URL": "https://aws1-bucket1-jg.s3.amazonaws.com/jess-shulman-portfolio/",
   "colors": {
     "black_1": "#000000"
   },
