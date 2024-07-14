@@ -208,7 +208,7 @@ const Navbar = () => {
             <div style={{ width: "80%", height: "1px", borderRadius: "3px", margin: "35px 40px", backgroundColor: "#999" }}></div>
 
             <ul style={{ marginLeft: "40px", display: "flex", flexDirection: "column", gap: "5px" }}>
-              <li><a className="overlay-link playfair-display" href="https://instagram.com" onClick={() => { setIsOpen(false); if (isOpenRef) { isOpenRef.current = false } }}>INSTAGRAM</a></li>
+              <li><a className="overlay-link playfair-display" href="https://www.instagram.com/jessica.shulman.design/" onClick={() => { setIsOpen(false); if (isOpenRef) { isOpenRef.current = false } }}>INSTAGRAM</a></li>
               <li><a className="overlay-link playfair-display" href="https://instagram.com" onClick={() => { setIsOpen(false); if (isOpenRef) { isOpenRef.current = false } }}>BEHANCE</a></li>
               <li><a className="overlay-link playfair-display" href="https://instagram.com" onClick={() => { setIsOpen(false); if (isOpenRef) { isOpenRef.current = false } }}>DRIBBBLE</a></li>
               <li><a className="overlay-link playfair-display" href="https://instagram.com" onClick={() => { setIsOpen(false); if (isOpenRef) { isOpenRef.current = false } }}>LINKEDIN</a></li>
