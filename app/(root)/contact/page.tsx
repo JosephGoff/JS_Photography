@@ -40,7 +40,7 @@ const SVGAnimation = memo(
           transition: "none",
           minWidth: "530px",
           minHeight: "530px",
-          display: "flex",
+          display: "none",
           alignItems: "center",
           justifyContent: "center",
           marginTop: 0,
@@ -66,17 +66,27 @@ const Contact = () => {
   const sendButtonRef = useRef<HTMLDivElement>(null);
 
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  
+
+  useEffect(() => {
+    console.log(isImageLoaded, hiThereRef.current)
+    if (isImageLoaded && hiThereRef.current) {
+      hiThereRef.current.style.display = "flex";
+      console.log(1)
+    }
+  }, [isImageLoaded]);
+
   useEffect(() => {
     if (hiThereRef.current) {
       if (window.innerWidth < 1024) {
-        hiThereRef.current.style.marginTop = "-36vh"
+        hiThereRef.current.style.marginTop = "-36vh";
       }
     }
     setTimeout(() => {
-      if (bgRef.current && cardContainerRef.current && cardRef.current && hiThereRef.current) {
+      if (bgRef.current && cardContainerRef.current && cardRef.current) {
         bgRef.current.style.opacity = "1";
-        hiThereRef.current.style.transition = "1.5s ease"
+        if (hiThereRef.current) {
+          hiThereRef.current.style.transition = "1.5s ease";
+        }
         if (window.innerWidth < 1024) {
           cardContainerRef.current.style.width = "100vw";
           cardContainerRef.current.style.marginLeft = "0";
@@ -93,7 +103,6 @@ const Contact = () => {
             setTimeout(() => {
               if (
                 bgRef.current &&
-                hiThereRef.current &&
                 containerRef.current &&
                 cardRef.current &&
                 gradientRef.current
@@ -103,16 +112,17 @@ const Contact = () => {
                 if (window.innerWidth > 1024) {
                   gradientRef.current.style.marginLeft = "50vw";
                   bgRef.current.style.width = "50vw";
-                  hiThereRef.current.style.width = "50vw";
+                  if (hiThereRef.current)
+                    hiThereRef.current.style.width = "50vw";
                 } else {
-                  hiThereRef.current.style.marginTop = "calc(-56vw - 70px)"
+                  if (hiThereRef.current)
+                    hiThereRef.current.style.marginTop = "calc(-56vw - 70px)";
                   cardRef.current.style.marginTop = "40px";
                 }
               }
               setTimeout(() => {
                 if (
                   bgRef.current &&
-                  hiThereRef.current &&
                   gradientRef.current &&
                   cardRef.current &&
                   inputNameRef.current &&
@@ -126,7 +136,8 @@ const Contact = () => {
                   inputEmailRef.current.style.opacity = "1";
                   inputMessageRef.current.style.opacity = "1";
                   bgRef.current.style.transition = "none";
-                  hiThereRef.current.style.transition = "none";
+                  if (hiThereRef.current)
+                    hiThereRef.current.style.transition = "none";
                   gradientRef.current.style.transition = "none";
                   cardRef.current.style.transition = "none";
                   emailButtonRef.current.style.zIndex = "104";
@@ -153,7 +164,7 @@ const Contact = () => {
         ) {
           bgRef.current.style.width = "50vw";
           hiThereRef.current.style.width = "50vw";
-          hiThereRef.current.style.marginTop = "0"
+          hiThereRef.current.style.marginTop = "0";
           cardContainerRef.current.style.width = "50vw";
           cardContainerRef.current.style.marginLeft = "50vw";
           cardRef.current.style.width = "calc(50vw - 60px)";
@@ -168,7 +179,7 @@ const Contact = () => {
         ) {
           bgRef.current.style.width = "100vw";
           hiThereRef.current.style.width = "100vw";
-          hiThereRef.current.style.marginTop = "calc(-56vw - 70px)"
+          hiThereRef.current.style.marginTop = "calc(-56vw - 70px)";
           cardContainerRef.current.style.width = "100vw";
           cardContainerRef.current.style.marginLeft = "0";
           cardRef.current.style.marginTop = "40px";
@@ -506,6 +517,7 @@ const Contact = () => {
             layout="fill"
             objectFit="cover"
             objectPosition="center"
+            onLoadingComplete={() => setIsImageLoaded(true)}
           />
         </div>
       </div>

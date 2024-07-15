@@ -32,6 +32,7 @@ const Services = () => {
         >
          <Image
             className="hidden lg:block "
+            style={{maxHeight: "calc(100vh - 60px)", maxWidth: "calc((100vh - 60px) * (602 / 917))"}}
             src={appData.S3_base_URL + "services/services-left.png"}
             alt="photos"
             layout="responsive"
@@ -56,6 +57,7 @@ const Services = () => {
           <Image
             className="hidden lg:block "
             src={appData.S3_base_URL + "services/services-right.png"}
+            style={{maxHeight: "calc(100vh - 60px)", maxWidth: "calc((100vh - 60px) * (886 / 853))" }}
             alt="photos"
             layout="responsive"
             width={1000}
@@ -65,20 +67,10 @@ const Services = () => {
           />
         </div>
 
-        {/* My Photos  Header*/}
-        <div
-          style={{
-            width: "100vw",
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            position: "absolute",
-          }}
-        ></div>
-
         {/* Small screen */}
         <Image
           className="block lg:hidden"
+          style={{marginTop: "20px"}}
           src={appData.S3_base_URL + "services/services-half.png"}
           alt="photos"
           layout="responsive"

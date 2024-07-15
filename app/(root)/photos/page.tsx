@@ -16,8 +16,8 @@ const Photos = () => {
           overflow: "hidden",
           zIndex: 101,
           position: "relative",
-          backgroundColor: "#E4E2DD",
-          // backgroundColor: "#D7CDBE",
+          backgroundColor: "white",
+          // backgroundColor: "#E4E2DD",
         }}
       >
         {/* Left Image LG */}
@@ -52,6 +52,7 @@ const Photos = () => {
             marginLeft: "50vw",
             overflow: "hidden",
             position: "absolute",
+            padding: "33px"
           }}
         >
           <Image
@@ -79,9 +80,9 @@ const Photos = () => {
           }}
         >
           <div
-            className="lg:ml-[55vw] ml-[10vw] w-[80vw] lg:w-[40vw]"
+            className="lg:ml-[57vw] ml-[10vw] w-[80vw] lg:w-[36vw]"
             style={{
-              aspectRatio: 15 / 10.1,
+              aspectRatio: 1522 / 1032,
               // backgroundColor: "#E4E2DD",
               backgroundColor: "white",
               overflow: "hidden",
@@ -96,7 +97,7 @@ const Photos = () => {
               width: "100%",
               objectFit: "cover",
               objectPosition: "center",
-              padding: 22,
+              padding: "22px",
             }}
             width={1000}
             height={1000}
