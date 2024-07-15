@@ -64,6 +64,8 @@ const Contact = () => {
   const emailButtonRef = useRef<HTMLDivElement>(null);
   const locationButtonRef = useRef<HTMLDivElement>(null);
   const sendButtonRef = useRef<HTMLDivElement>(null);
+
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
   
   useEffect(() => {
     if (hiThereRef.current) {
@@ -134,10 +136,10 @@ const Contact = () => {
               }, 1500);
             }, 1500);
           }
-        }, 4000);
+        }, 2500);
       }
     }, 150);
-  }, [bgRef]);
+  }, [isImageLoaded]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -261,7 +263,7 @@ const Contact = () => {
             }}
           >
             <Image
-              src={appData.baseURL + "contact/contact_card4.png"}
+              src={appData.S3_base_URL + "contact/contact-card.png"}
               alt="contact card"
               layout="responsive"
               objectFit="cover"
@@ -285,7 +287,7 @@ const Contact = () => {
               }}
             >
               <Image
-                src={appData.baseURL + "contact/contact_email1.png"}
+                src={appData.S3_base_URL + "contact/contact-card-email.png"}
                 alt="email"
                 layout="responsive"
                 objectFit="cover"
@@ -310,7 +312,7 @@ const Contact = () => {
               }}
             >
               <Image
-                src={appData.baseURL + "contact/contact_location1.png"}
+                src={appData.S3_base_URL + "contact/contact-card-location.png"}
                 alt="email"
                 layout="responsive"
                 objectFit="cover"
@@ -334,7 +336,7 @@ const Contact = () => {
               }}
             >
               <Image
-                src={appData.baseURL + "contact/contact_card_send.png"}
+                src={appData.S3_base_URL + "contact/contact-card-send.png"}
                 alt="contact card"
                 layout="responsive"
                 objectFit="cover"
@@ -455,7 +457,7 @@ const Contact = () => {
           }}
         >
           <Image
-            src={appData.baseURL + "contact/gradient1.png"}
+            src={appData.S3_base_URL + "contact/contact-gradient.png"}
             alt="gradient"
             objectFit="cover"
             objectPosition="left"
@@ -479,7 +481,7 @@ const Contact = () => {
         >
           <Image
             className="hidden lg:block"
-            src={appData.S3_base_URL + "contact/contact_bg2.png"}
+            src={appData.S3_base_URL + "contact/contact-bg2.png"}
             alt="header"
             style={{
               position: "absolute",
@@ -491,10 +493,11 @@ const Contact = () => {
             objectFit="cover"
             objectPosition="center"
             layout="fill"
+            onLoadingComplete={() => setIsImageLoaded(true)}
           />
           <Image
             className="block lg:hidden"
-            src={appData.S3_base_URL + "contact/contact_bg2.png"}
+            src={appData.S3_base_URL + "contact/contact-bg2.png"}
             alt="header"
             style={{
               minHeight: "calc(100vh - 60px) ",

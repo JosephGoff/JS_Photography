@@ -145,7 +145,7 @@ const Navbar = () => {
             <Link href="/">
               <div style={{ width: "130px", height: "60px", position: "relative", pointerEvents: "all" }}>
                 <Image
-                  src={appData.baseURL + "jessshulman.png"}
+                  src={appData.S3_base_URL + "nav/jessshulman.png"}
                   alt="signature"
                   layout="fill"
                   objectFit="cover"

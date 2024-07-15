@@ -1,104 +1,127 @@
-"use client"
-import Navbar from '@/components/Navbar/Navbar'
-import Image from 'next/image'
-import React from 'react'
+"use client";
+import Navbar from "@/components/Navbar/Navbar";
+import Image from "next/image";
+import React from "react";
 import appData from "../../../app-data.json";
 
 const Photos = () => {
   return (
     <>
       <Navbar />
-       <div
+      <div
         style={{
           width: "100vw",
           height: "calc(100vh - 60px)",
           display: "flex",
-          overflow: 'hidden',
+          overflow: "hidden",
           zIndex: 101,
-          position: 'relative',
-          // backgroundColor: "#E4E2DD"
-          backgroundColor: "#D7CDBE"
+          position: "relative",
+          backgroundColor: "#E4E2DD",
+          // backgroundColor: "#D7CDBE",
         }}
       >
-        <Image
-          className="hidden md:block"
-          src={appData.baseURL + "photos/photos1.png"}
-          alt="header"
+        {/* Left Image LG */}
+        <div
+          className="hidden lg:block"
           style={{
-            position: 'absolute', 
-            top: 0,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            minHeight: "calc(100vh - 60px)"
+            height: "100%",
+            width: "50vw",
+            backgroundColor: "red",
+            overflow: "hidden",
           }}
-          objectFit="contain" 
-          objectPosition="center"
-          layout="fill"
-        />
+        >
+          <Image
+            src={appData.S3_base_URL + "photos/photos-bg.png"}
+            alt="photos"
+            style={{
+              height: "100%",
+              width: "100%",
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
+            width={1000}
+            height={1000}
+          />
+        </div>
+
+        {/* Right Image LG */}
+        <div
+          className="hidden lg:block"
+          style={{
+            height: "100%",
+            width: "50vw",
+            marginLeft: "50vw",
+            overflow: "hidden",
+            position: "absolute",
+          }}
+        >
+          <Image
+            src={appData.S3_base_URL + "photos/photos-spider.png"}
+            alt="photos"
+            style={{
+              height: "100%",
+              width: "100%",
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
+            width={1000}
+            height={1000}
+          />
+        </div>
+
+        {/* My Photos  Header*/}
+        <div
+          style={{
+            width: "100vw",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            position: "absolute",
+          }}
+        >
+          <div
+            className="lg:ml-[55vw] ml-[10vw] w-[80vw] lg:w-[40vw]"
+            style={{
+              aspectRatio: 15 / 10.1,
+              // backgroundColor: "#E4E2DD",
+              backgroundColor: "white",
+              overflow: "hidden",
+              zIndex: 103,
+            }}
+          >
+            <Image
+            src={appData.S3_base_URL + "photos/photos-right-header.png"}
+            alt="photos header"
+            style={{
+              height: "100%",
+              width: "100%",
+              objectFit: "cover",
+              objectPosition: "center",
+              padding: 22,
+            }}
+            width={1000}
+            height={1000}
+          />
+          </div>
+        </div>
+
+        {/* Small screen */}
         <Image
-          className="block md:hidden"
-          src={appData.baseURL + "photos/photos1.png"}
-          alt="header"
-          style={{ minHeight: "calc(100vh - 60px) ", maxHeight: "calc(100vh - 60px) "}}
+          className="block lg:hidden"
+          src={appData.S3_base_URL + "photos/photos-bg.png"}
+          alt="photos"
+          style={{
+            minHeight: "calc(100vh - 60px) ",
+            maxHeight: "calc(100vh - 60px) ",
+            zIndex: 101,
+          }}
           layout="fill"
           objectFit="cover"
           objectPosition="center"
         />
       </div>
-      {/* <div className="h-[calc(100vh-60px)] w-[100vw]">
-        <div className="w-[100vw] md:w-[50vw]" style={{ zIndex: 101, position: 'fixed', height: 'calc(100vh - 60px)', overflow: 'hidden', overflowX: "hidden" }}>
-          <Image
-            src={appData.baseURL + 'photos/photos_bg.png'}
-            alt="photos"
-            layout="fill"
-            objectPosition='center'
-            style={{ objectFit: 'fill', objectPosition: 'center', overflow: "hidden", overflowX: "hidden" }}
-          />
-        </div>
-
-        <div className="w-[100vw] md:w-[50vw]" style={{ position: "absolute", top: 60, height: "calc(100vh - 60px)", minHeight: "625px", zIndex: 102, display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <div style={{ height: "80vh", minHeight: "500px", aspectRatio: "1 / 2", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", gap: "3vh" }}>
-            <div style={{ width: "52%" }}>
-              <Image
-                src={appData.baseURL + 'photos/photos_title.png'}
-                alt="cover"
-                layout="responsive"
-                objectPosition='center'
-                style={{ objectFit: 'cover' }}
-                width={1500}
-                height={492}
-              />
-            </div>
-            <div style={{ height: "55%", aspectRatio: "1 / 1.6", margin: "10px 0", position: "relative" }}>
-              <Image
-                src={appData.baseURL + 'photos/photos_cover.png'}
-                alt="cover"
-                layout="fill"
-                objectFit='cover'
-                objectPosition='center'
-                loading="eager"
-                style={{ position: "absolute", top: 0, left: 0 }}
-              />
-            </div>
-            <div style={{ width: "40%", marginTop: "20px" }}>
-              <Image
-                src={appData.baseURL + 'photos/photos_insporation.png'}
-                alt="cover"
-                layout="responsive"
-                objectPosition='center'
-                style={{ objectFit: 'cover' }}
-                width={1500}
-                height={286}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="w-0 md:w-[50vw] ml-[50vw]" style={{height: "100%", backgroundColor: "#FFF"}}> 
-        </div>
-      </div> */}
     </>
-  )
-}
+  );
+};
 
-export default Photos
+export default Photos;

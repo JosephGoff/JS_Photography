@@ -12,24 +12,24 @@ const Designs = () => {
   const tabletRef = useRef<HTMLDivElement>(null);
   const tabletImageRef = useRef<HTMLImageElement>(null);
   const fixedViewRef = useRef<HTMLImageElement>(null);
-  const page2Ref = useRef(false)
-  const lastScrollRef = useRef(0)
-  const bodyRef = useRef<HTMLElement>(null)
+  const fixedViewImageRef = useRef<HTMLImageElement>(null);
 
   const imageWidth = 2157
   const imageHeight = 2467
+
   const tabletWidth = 803
   const tabletHeight = 560
-  const whratio = imageWidth / imageHeight
 
+  const whratio = imageWidth / imageHeight
   const [whiteTabletWidth, setWhiteTabletWidth] = useState(200)
   const [percentThereValue, setPercentThereValue] = useState(0)
-  const whiteTabletWidthRef = useRef(200)
-  const percentThereValueRef = useRef(0)
-  
   const [page2, setPage2] = useState(false)
   const [page, setPage] = useState(0)
+  const page2Ref = useRef(false)
   const [showPage2, setShowPage2] = useState(false)
+  const lastScrollRef = useRef(0)
+  const fixedRef = useRef(false)
+  const bodyRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     // When page loads

@@ -1,54 +1,53 @@
 @import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Varela+Round&display=swap');
 
-
 .hi_there {
   height: 500px;
   max-height: 70vw;
   overflow: visible;
-  animation: filter1 3s ease forwards;
+  animation: filter1 2.7s ease forwards;
   animation-delay: 0s;
 }
 
 #svg_hi {
   stroke-dasharray: 3938.47;
   stroke-dashoffset: 3938.47;
-  animation: draw 1.2s ease-in-out forwards;
-  animation-delay: 1s;
+  animation: draw 1s ease-in-out forwards;
+  animation-delay: 0s;
 }
 
 #svg_there {
   stroke-dasharray: 10212.07;
   stroke-dashoffset: 10212.07;
-  animation: draw 1.6s ease-in-out forwards;
-  animation-delay: 2.2s;
+  animation: draw 1.3s ease-in-out forwards;
+  animation-delay: 1s;
 }
 
 #svg_i {
   stroke-dasharray: 66.92;
   stroke-dashoffset: 66.92;
-  animation: draw 0.3s ease-in-out forwards;
-  animation-delay: 1.9s;
+  animation: draw 0.1s ease-in-out forwards;
+  animation-delay: 0.7s;
 }
 
 #svg_ex {
   stroke-dasharray: 660;
   stroke-dashoffset: 660;
-  animation: draw 0.4s ease-in-out forwards;
-  animation-delay: 3.8s;
+  animation: draw 0.3s ease-in-out forwards;
+  animation-delay: 2.3s;
 }
 
 #svg_ex_dot {
   stroke-dasharray: 83.37;
   stroke-dashoffset: 83.37;
-  animation: draw 0.3s ease-in-out forwards;
-  animation-delay: 4.3s;
+  animation: draw 0.1s ease-in-out forwards;
+  animation-delay: 2.6s;
 }
 
 #svg_cross {
   stroke-dasharray: 726.22;
   stroke-dashoffset: 726.22;
-  animation: draw 0.5s ease-in-out forwards;
-  animation-delay: 2.9s;
+  animation: draw 0.2s ease-in-out forwards;
+  animation-delay: 1.3s;
 }
 
 @keyframes draw {
@@ -62,7 +61,6 @@
     filter: drop-shadow(0 0 5px white);
   }
 }
-
 
 
 .input_fonts {
