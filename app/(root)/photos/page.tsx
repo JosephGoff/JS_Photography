@@ -26,7 +26,6 @@ const Photos = () => {
           style={{
             height: "100%",
             width: "50vw",
-            backgroundColor: "red",
             overflow: "hidden",
           }}
         >

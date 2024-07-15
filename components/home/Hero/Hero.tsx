@@ -35,45 +35,55 @@ const Hero = () => {
     }
   }, [isImage1Loaded, isImage2Loaded, isImage3Loaded]);
 
-  useEffect(() => {
-    const screenHeight = window.innerHeight - 60;
-    const maxScroll = 500;
+//   useEffect(() => {
+//   // Disable scrolling when the component mounts
+//   document.body.style.overflow = 'hidden';
+  
+//   // Re-enable scrolling when the component unmounts
+//   return () => {
+//     document.body.style.overflow = '';
+//   };
+// }, []);
 
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const percentThere = scrollY / maxScroll;
-      const over640 = window.innerWidth > 640 ? true : false;
-      const biggerThan900 = window.innerWidth * 0.8 > 900 ? true : false;
+  // useEffect(() => {
+  //   const screenHeight = window.innerHeight - 60;
+  //   const maxScroll = 500;
 
-      const initialWidth = biggerThan900 ? (900 / window.innerWidth) * 100 : 80;
-      const finalWidth = 100;
-      const widthDifference = finalWidth - initialWidth;
+  //   const handleScroll = () => {
+  //     const scrollY = window.scrollY;
+  //     const percentThere = scrollY / maxScroll;
+  //     const over640 = window.innerWidth > 640 ? true : false;
+  //     const biggerThan900 = window.innerWidth * 0.8 > 900 ? true : false;
 
-      const initialHeight = biggerThan900
-        ? (0.93 / 2) * (900 / window.innerWidth) * 100
-        : (0.93 / 2) * 80;
-      const finalHeight = 100;
-      const heightDifference = finalHeight - initialHeight;
+  //     const initialWidth = biggerThan900 ? (900 / window.innerWidth) * 100 : 80;
+  //     const finalWidth = 100;
+  //     const widthDifference = finalWidth - initialWidth;
 
-      const initialMarginTop = 20;
+  //     const initialHeight = biggerThan900
+  //       ? (0.93 / 2) * (900 / window.innerWidth) * 100
+  //       : (0.93 / 2) * 80;
+  //     const finalHeight = 100;
+  //     const heightDifference = finalHeight - initialHeight;
 
-      if (scrollY < maxScroll &&  heroImageRef.current) {
-         heroImageRef.current.style.marginTop = `${0.5 * scrollY}px`;
-      }
+  //     const initialMarginTop = 20;
 
-      if (scrollY < maxScroll) {
-        // if (displayRef.current) {
-        //   // displayRef.current.style.width = `${initialWidth + (widthDifference * percentThere)}%`
-        //   // displayRef.current.style.marginTop = `${initialMarginTop - (20 * percentThere)}vh`
-        // }
-      }
-    };
+  //     if (scrollY < maxScroll &&  heroImageRef.current) {
+  //        heroImageRef.current.style.marginTop = `${0.5 * scrollY}px`;
+  //     }
 
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  //     if (scrollY < maxScroll) {
+  //       // if (displayRef.current) {
+  //       //   // displayRef.current.style.width = `${initialWidth + (widthDifference * percentThere)}%`
+  //       //   // displayRef.current.style.marginTop = `${initialMarginTop - (20 * percentThere)}vh`
+  //       // }
+  //     }
+  //   };
+
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
 
   return (
     <>
@@ -171,7 +181,7 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* <div style={{ width: "100vw", height: "100vh", marginTop: "calc(100vh - 60px)" }}></div> */}
+      <div style={{ width: "100vw", height: "1000px", marginTop: "calc(100vh - 60px)", zIndex: 103, position: "absolute", top: 60, backgroundColor: "white"}}></div>
     </>
   );
 };
