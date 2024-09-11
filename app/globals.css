@@ -75,7 +75,6 @@
   }
 }
 
-
 .hover-dim:hover {
   filter: brightness(0.75);
 }
@@ -90,7 +89,7 @@
 
 .hide-scroll {
   scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE and Edge */
+  -ms-overflow-style: none; /* IE and Edge */
 }
 
 .hide-scroll::-webkit-scrollbar {
@@ -99,17 +98,17 @@
 
 
 
-/* @font-face {
-  font-family: 'Gloria Hallelujah';
-  src: url('/public/assets/fonts/Gloria_Hallelujah/GloriaHallelujah-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+
+
+
+
+
+
+/* SELECT NONE */
+.select-none {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  color: red;
 }
 
-
-@font-face {
-  font-family: 'Varela Round';
-  src: url('/fonts/Varela_Round/Varela_Round.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-} */
