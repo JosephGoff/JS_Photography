@@ -6,13 +6,6 @@
     "black_1": "#000000"
   },
   "pages": {
-    "home": {
-      "text": {
-        "text1": "Hello"
-      },
-      "images": {
-        "img1": "img1.jpg"
-      }
-    }
+
   }
 }

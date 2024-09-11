@@ -24,16 +24,16 @@ const Navbar = () => {
     setCurrentRoute(router);
   }, [router]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (navWhiteOverlayRef.current) {
-      navWhiteOverlayRef.current.style.opacity = "0"
+      navWhiteOverlayRef.current.style.opacity = "0";
     }
-  }, [navWhiteOverlayRef])
+  }, [navWhiteOverlayRef]);
 
   // Handle window resizes
   useEffect(() => {
     const handleNavResize = () => {
-      if (window.innerWidth >= 760 && isOpenRef && isOpenRef.current === true) {
+      if (window.innerWidth >= 992 && isOpenRef && isOpenRef.current === true) {
         closeIsOpen(false);
         toggleNav(false);
       }
@@ -85,25 +85,27 @@ const Navbar = () => {
   const [isFading, setIsFading] = useState(false);
   const handleClick = (e: any) => {
     e.preventDefault();
-    
+    if (navWhiteOverlayRef.current) {
+      navWhiteOverlayRef.current.style.opacity = "1";
+    }
+
     // FROM NAV OVERLAY
     if (e.target.tagName === "P") {
-      let newRoute = e.target.textContent.toLowerCase()
-      if (newRoute === "about") { newRoute = ""}
+      let newRoute = e.target.textContent.toLowerCase();
+      if (newRoute === "home") {
+        newRoute = "";
+      }
       setIsFading(true);
       setTimeout(() => {
-        closeIsOpen(false)
+        closeIsOpen(false);
       }, 300);
       setTimeout(() => {
-        window.location.href = "/" + newRoute; 
+        window.location.href = "/" + newRoute;
         setIsFading(false);
       }, 600);
     } else if (e.target.tagName === "IMG" && e.target.alt === "signature") {
-      if (navWhiteOverlayRef.current) {
-        navWhiteOverlayRef.current.style.opacity = "1"
-      }
       setTimeout(() => {
-        window.location.href = "/"
+        window.location.href = "/";
       }, 600);
     }
   };
@@ -121,7 +123,7 @@ const Navbar = () => {
       >
         {/* Hamburger Button */}
         <div
-          className="absolute md:hidden flex items-center select-none"
+          className="absolute lg:hidden flex items-center select-none"
           style={{ height: 70, right: 23 }}
         >
           <button
@@ -184,7 +186,7 @@ const Navbar = () => {
 
         {/* Close Button */}
         <div
-          className="absolute md:hidden flex items-center select-none"
+          className="absolute lg:hidden flex items-center select-none"
           style={{ height: 70, right: 47 }}
         >
           <button
@@ -201,7 +203,7 @@ const Navbar = () => {
                 }, 400);
               }
             }}
-            className="absolute md:hidden flex items-center"
+            className="absolute flex items-center"
             style={{
               transition: "transform 0.4s ease, opacity 0.4s ease",
               transform:
@@ -224,16 +226,17 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* NAME SM */}
+        {/* NAME SM- */}
         <div
-          className="md:hidden flex"
           style={{
             alignItems: "center",
             width: "210px",
             height: "70px",
             marginLeft: 20,
-            display: "flex"
+            display: "flex",
+            cursor: "pointer"
           }}
+          className="hover-dim"
         >
           <Link href="/" onClick={handleClick}>
             <Image
@@ -246,6 +249,33 @@ const Navbar = () => {
               height={123}
               draggable="false"
             />
+          </Link>
+        </div>
+
+        {/* NAV SM+ */}
+        <div
+          className={`lg:flex hidden justify-center items-center absolute h-[70px]`}
+          style={{ width: "100vw", top: 0, gap: "calc(30px + 3vw)", pointerEvents: "none"}}
+        >
+          <Link href="/about">
+            <div className="nav-link">
+              <p className="nav-link-text">about</p>
+            </div>
+          </Link>
+          <Link href="/projects">
+            <div className="nav-link">
+              <p className="nav-link-text">projects</p>
+            </div>
+          </Link>
+          <a href="https://www.redbubble.com/people/jessshuly/shop?asc=u">
+            <div className="nav-link">
+              <p className="nav-link-text">shop</p>
+            </div>
+          </a>
+          <Link href="/contact">
+            <div className="nav-link">
+              <p className="nav-link-text">contact</p>
+            </div>
           </Link>
         </div>
 
@@ -322,16 +352,13 @@ const Navbar = () => {
                   <IoLeaf size={29} color="black" />
                 </div>
               )}
-              <Link
-                href="/"
-                onClick={handleClick}
-              >
+              <Link href="/" onClick={handleClick}>
                 <p
                   className={`nav-overlay-text lexend-tera ${
                     currentRoute === "/" ? "active-route" : ""
                   }`}
                 >
-                  ABOUT
+                  HOME
                 </p>
               </Link>
             </li>
@@ -339,21 +366,18 @@ const Navbar = () => {
               style={{ animationDelay: "0.075s" }}
               className="slide-bottom-up-text overlay-link"
             >
-              {currentRoute === "/designs" && (
+              {currentRoute === "/about" && (
                 <div className="nav-overlay-leaf">
                   <IoLeaf size={29} color="black" />
                 </div>
               )}
-              <Link
-                href="/designs"
-                onClick={handleClick}
-              >
+              <Link href="/about" onClick={handleClick}>
                 <p
                   className={`nav-overlay-text lexend-tera  ${
-                    currentRoute === "/designs" ? "active-route" : ""
+                    currentRoute === "/about" ? "active-route" : ""
                   }`}
                 >
-                  DESIGNS
+                  ABOUT
                 </p>
               </Link>
             </li>
@@ -361,21 +385,18 @@ const Navbar = () => {
               style={{ animationDelay: "0.15s" }}
               className="slide-bottom-up-text overlay-link"
             >
-              {currentRoute === "/photos" && (
+              {currentRoute === "/projects" && (
                 <div className="nav-overlay-leaf">
                   <IoLeaf size={29} color="black" />
                 </div>
               )}
-              <Link
-                href="/photos"
-                onClick={handleClick}
-              >
+              <Link href="/projects" onClick={handleClick}>
                 <p
                   className={`nav-overlay-text lexend-tera ${
-                    currentRoute === "/photos" ? "active-route" : ""
+                    currentRoute === "/projects" ? "active-route" : ""
                   }`}
                 >
-                  PHOTOS
+                  PROJECTS
                 </p>
               </Link>
             </li>
@@ -396,10 +417,7 @@ const Navbar = () => {
                   <IoLeaf size={29} color="black" />
                 </div>
               )}
-              <Link
-                href="/contact"
-                onClick={handleClick}
-              >
+              <Link href="/contact" onClick={handleClick}>
                 <p
                   className={`nav-overlay-text lexend-tera  ${
                     currentRoute === "/contact" ? "active-route" : ""
@@ -426,8 +444,7 @@ const Navbar = () => {
           pointerEvents: "none",
           transition: "opacity 0.8s ease",
         }}
-      >
-      </div>
+      ></div>
     </nav>
   );
 };

@@ -29,27 +29,27 @@
 
 /* NAV BAR */
 .nav-link {
-    font-size: calc(8.7px + 0.2vw);
-    padding: 0 calc(13px + 1.7vw);
+  height: calc(21px + 0.2vw);
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+  pointer-events: all;
+}
+
+.nav-link-text {
+    font-size: calc(13px + 0.2vw);
     letter-spacing: calc(0.6px + 0.05vw);
-    display: inline-block;
     -webkit-transform: scale(1.06, 1);
     -moz-transform: scale(1.06, 1);
     -ms-transform: scale(1.06, 1);
     -o-transform: scale(1.06, 1);
     transform: scale(1.06, 1);
-    color: #222;
-    margin-top: 22px;
+    color: black;
+    font-weight: 200;
 }
 
-.nav-link * {
-    border-bottom: 1px solid transparent;
-    transition: border-bottom 0.5s ease;
-    padding-bottom: 1px;
-}
-
-.nav-link *:hover {
-    border-bottom: 1px solid #444;
+.nav-link:hover {
+  /* border-bottom: 1.4px solid black; */
+  opacity: 0.5;
 }
 
 
