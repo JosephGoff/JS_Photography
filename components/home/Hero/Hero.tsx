@@ -8,8 +8,8 @@ const Hero = () => {
     <div
       className="flex justify-center items-center"
       style={{ width: "100vw", height: "100vh", 
-      // backgroundColor: "#3C501C",
-      backgroundColor: "white" 
+      backgroundColor: "#3C501C",
+      // backgroundColor: "white" 
       }}
     >
       <p style={{ color: "white", fontSize: 30 }}>HOME</p>
