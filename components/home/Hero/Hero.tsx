@@ -5,15 +5,59 @@ import appData from "../../../app-data.json";
 
 const Hero = () => {
   return (
+    <>
     <div
-      className="flex justify-center items-center"
-      style={{ width: "100vw", height: "100vh", 
-      backgroundColor: "#3C501C",
-      // backgroundColor: "white" 
+      style={{
+        width: "100vw",
+        height: "100vh",
+        position: "relative",
+        zIndex: 100,
+        backgroundColor: "red"
       }}
     >
-      <p style={{ color: "white", fontSize: 30 }}>HOME</p>
+      <Image
+      style={{zIndex: 100}}
+        src={appData.baseURL + "flower3.png"}
+        alt="designs"
+        layout="fill"
+        objectFit="cover"
+      />
     </div>
+        <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+        position: "relative",
+        zIndex: 100,
+        backgroundColor: "red"
+      }}
+    >
+      <Image
+      style={{zIndex: 100}}
+        src={appData.baseURL + "flower3.png"}
+        alt="designs"
+        layout="fill"
+        objectFit="cover"
+      />
+    </div>
+        <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+        position: "relative",
+        zIndex: 100,
+        backgroundColor: "red"
+      }}
+    >
+      <Image
+      style={{zIndex: 100}}
+        src={appData.baseURL + "flower3.png"}
+        alt="designs"
+        layout="fill"
+        objectFit="cover"
+      />
+    </div>
+    </>
   );
 };
 

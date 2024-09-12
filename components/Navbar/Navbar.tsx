@@ -18,11 +18,41 @@ const Navbar = () => {
   const router = usePathname();
   const navOverlayRef = useRef<HTMLDivElement>(null);
   const navWhiteOverlayRef = useRef<HTMLDivElement>(null);
+  const [navWhite, setNavWhite] = useState(false);
+
+  useEffect(() => {
+    if (navWhiteOverlayRef.current) {
+      navWhiteOverlayRef.current.style.opacity = "0";
+    }
+    closeNavQuick()
+  }, []);
 
   // Initialize the router
   useEffect(() => {
     setCurrentRoute(router);
+    closeNavQuick()
   }, [router]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+
+      if (scrollY >= windowHeight && navWhite !== true) {
+        setNavWhite(true); // Scrolled beyond 1x the window height
+      } else if (scrollY < windowHeight && navWhite !== false) {
+        setNavWhite(false); // Scrolled back to less than 1x the window height
+      }
+    };
+
+    // Add scroll event listener
+    window.addEventListener("scroll", handleScroll);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [navWhite]);
 
   useEffect(() => {
     if (navWhiteOverlayRef.current) {
@@ -84,31 +114,54 @@ const Navbar = () => {
 
   const [isFading, setIsFading] = useState(false);
   const handleClick = (e: any) => {
-    e.preventDefault();
-    if (navWhiteOverlayRef.current) {
-      navWhiteOverlayRef.current.style.opacity = "1";
+    // e.preventDefault();
+    // if (navWhiteOverlayRef.current) {
+    //   navWhiteOverlayRef.current.style.opacity = "1";
+    // }
+    // // FROM NAV OVERLAY
+    // if (e.target.tagName === "P") {
+    //   let newRoute = e.target.textContent.toLowerCase();
+    //   if (newRoute === "home") {
+    //     newRoute = "";
+    //   }
+    //   setIsFading(true);
+    //   setTimeout(() => {
+    //     closeIsOpen(false);
+    //   }, 300);
+    //   setTimeout(() => {
+    //     window.location.href = "/" + newRoute;
+    //     setIsFading(false);
+    //   }, 600);
+    // } else if (e.target.tagName === "IMG" && e.target.alt === "signature") {
+    //   setTimeout(() => {
+    //     window.location.href = "/";
+    //   }, 600);
+    // }
+  };
+
+  function closeNavQuick() {
+    // Toggle nav quick
+    if (navOverlayRef.current) {
+      navOverlayRef.current.style.transition = "none";
+      navOverlayRef.current.style.opacity = "0";
+      navOverlayRef.current.style.pointerEvents = "none";
     }
 
-    // FROM NAV OVERLAY
-    if (e.target.tagName === "P") {
-      let newRoute = e.target.textContent.toLowerCase();
-      if (newRoute === "home") {
-        newRoute = "";
-      }
-      setIsFading(true);
-      setTimeout(() => {
-        closeIsOpen(false);
-      }, 300);
-      setTimeout(() => {
-        window.location.href = "/" + newRoute;
-        setIsFading(false);
-      }, 600);
-    } else if (e.target.tagName === "IMG" && e.target.alt === "signature") {
-      setTimeout(() => {
-        window.location.href = "/";
-      }, 600);
+    // Close is open quick
+    if (closeRef) {
+      closeRef.current = false;
     }
-  };
+    if (isOpenRef) {
+      isOpenRef.current = false;
+    }
+    setCount((prevCount: number) => prevCount + 1);
+
+     setTimeout(() => {
+      if (navOverlayRef.current) {
+        navOverlayRef.current.style.transition = "opacity 0.5s ease";
+      }
+      }, 500);
+  }
 
   return (
     <nav style={{ zIndex: 900 }} className="select-none">
@@ -116,9 +169,10 @@ const Navbar = () => {
         style={{
           height: "70px",
           width: "100vw",
-          backgroundColor: "transparent",
+          backgroundColor: navWhite ? "white" : "transparent",
           zIndex: 902,
           position: "fixed",
+          transition: "background-color 0.8s ease",
         }}
       >
         {/* Hamburger Button */}
@@ -162,21 +216,24 @@ const Navbar = () => {
                   style={{
                     height: "2px",
                     width: "100%",
-                    backgroundColor: "black",
+                    backgroundColor: navWhite ? "black" : "white",
+                    transition: "background-color 0.8s ease",
                   }}
                 ></div>
                 <div
                   style={{
                     height: "2px",
                     width: "100%",
-                    backgroundColor: "black",
+                    backgroundColor: navWhite ? "black" : "white",
+                    transition: "background-color 0.8s ease",
                   }}
                 ></div>
                 <div
                   style={{
                     height: "2px",
                     width: "100%",
-                    backgroundColor: "black",
+                    backgroundColor: navWhite ? "black" : "white",
+                    transition: "background-color 0.8s ease",
                   }}
                 ></div>
               </div>
@@ -226,21 +283,24 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* NAME SM- */}
-        <div
-          style={{
-            alignItems: "center",
-            width: "210px",
-            height: "70px",
-            marginLeft: 20,
-            display: "flex",
-            cursor: "pointer"
-          }}
-          className="hover-dim"
-        >
-          <Link href="/" onClick={handleClick}>
+        {/* NAME */}
+        <Link href="/" onClick={handleClick}>
+          <div
+            style={{
+              alignItems: "center",
+              width: "210px",
+              height: "70px",
+              marginLeft: 20,
+              display: "flex",
+              cursor: "pointer",
+            }}
+            className="hover-dim"
+          >
             <Image
-              src={appData.S3_base_URL_2 + "NAME.png"}
+              src={
+                appData.S3_base_URL_2 +
+                `${navWhite ? "NAME" : "NAME-WHITE"}.png`
+              }
               className="select-none"
               alt="signature"
               layout="relative"
@@ -249,73 +309,72 @@ const Navbar = () => {
               height={123}
               draggable="false"
             />
-          </Link>
-        </div>
+          </div>
+        </Link>
 
         {/* NAV SM+ */}
         <div
           className={`lg:flex hidden justify-center items-center absolute h-[70px]`}
-          style={{ width: "100vw", top: 0, gap: "calc(30px + 3vw)", pointerEvents: "none"}}
+          style={{
+            width: "100vw",
+            top: 0,
+            gap: "calc(30px + 3vw)",
+            pointerEvents: "none",
+          }}
         >
           <Link href="/about">
             <div className="nav-link">
-              <p className="nav-link-text">about</p>
+              <p
+                style={{
+                  color: `${navWhite ? "black" : "white"}`,
+                  transition: "color 0.8s ease",
+                }}
+                className="nav-link-text"
+              >
+                about
+              </p>
             </div>
           </Link>
           <Link href="/projects">
             <div className="nav-link">
-              <p className="nav-link-text">projects</p>
+              <p
+                style={{
+                  color: `${navWhite ? "black" : "white"}`,
+                  transition: "color 0.8s ease",
+                }}
+                className="nav-link-text"
+              >
+                projects
+              </p>
             </div>
           </Link>
           <a href="https://www.redbubble.com/people/jessshuly/shop?asc=u">
             <div className="nav-link">
-              <p className="nav-link-text">shop</p>
+              <p
+                style={{
+                  color: `${navWhite ? "black" : "white"}`,
+                  transition: "color 0.8s ease",
+                }}
+                className="nav-link-text"
+              >
+                shop
+              </p>
             </div>
           </a>
           <Link href="/contact">
             <div className="nav-link">
-              <p className="nav-link-text">contact</p>
+              <p
+                style={{
+                  color: `${navWhite ? "black" : "white"}`,
+                  transition: "color 0.8s ease",
+                }}
+                className="nav-link-text"
+              >
+                contact
+              </p>
             </div>
           </Link>
         </div>
-
-        {/* 
-          <div className={`hidden md:flex`}>
-            <div className="nav-link playfair-display">
-              <Link href="/jess">JESS</Link>
-            </div>
-            <div className="nav-link playfair-display">
-              <Link href="/designs">DESIGNS</Link>
-            </div>
-            <div className="nav-link playfair-display">
-              <Link href="/photos">PHOTOS</Link>
-            </div>
-          </div>
-
-          <div className={`justify-center items-center absolute flex h-[60px]`} style={{ width: "100vw", pointerEvents: "none" }}>
-            <Link href="/">
-              <div style={{ width: "130px", height: "60px", position: "relative", pointerEvents: "all" }}>
-                <Image
-                  src={appData.S3_base_URL + "nav/jessshulman.png"}
-                  alt="signature"
-                  layout="fill"
-                  objectFit="cover"
-                />
-              </div>
-            </Link>
-          </div>
-
-          <div className={`hidden md:flex`}>
-            <div className="nav-link playfair-display">
-              <a href="https://www.redbubble.com/people/jessshuly/shop?asc=u">SHOP</a>
-            </div>
-            <div className="nav-link playfair-display">
-              <Link href="/services">SERVICES</Link>
-            </div>
-            <div className="nav-link playfair-display">
-              <Link href="/contact">CONTACT</Link>
-            </div>
-          </div> */}
       </div>
 
       {/* NAV OVERLAY */}
@@ -325,7 +384,7 @@ const Navbar = () => {
           width: "100vw",
           height: "100vh",
           backgroundColor: "white",
-          position: "absolute",
+          position: "fixed",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -333,6 +392,7 @@ const Navbar = () => {
           opacity: 0,
           pointerEvents: "none",
           transition: "opacity 0.5s ease",
+          zIndex: 901,
         }}
       >
         {count >= 0 && isOpenRef && isOpenRef.current && (
@@ -432,19 +492,19 @@ const Navbar = () => {
       </div>
 
       {/* UNDER OVERLAY */}
-      <div
+      {/* <div
         ref={navWhiteOverlayRef}
         style={{
           width: "100vw",
           height: "100vh",
           backgroundColor: "white",
-          position: "absolute",
+          position: "fixed",
           top: 0,
-          opacity: 1,
+          opacity: 0,
           pointerEvents: "none",
           transition: "opacity 0.8s ease",
         }}
-      ></div>
+      ></div> */}
     </nav>
   );
 };
