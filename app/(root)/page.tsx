@@ -3,10 +3,11 @@ import Hero from "@/components/home/Hero/Hero";
 import { useEffect, useState } from "react";
 import { RxChevronDown } from "react-icons/rx";
 import { RxChevronUp } from "react-icons/rx";
+import "./home.css"
 
 export default function Home() {
   const [scrollDirection, setScrollDirection] = useState(0);
- const duration = 1200; // Duration in milliseconds (1.2 seconds)
+  const duration = 1200; // Duration in milliseconds (1.2 seconds)
 
   // Custom scroll function for any target position
   const customScroll = (targetY: any) => {
@@ -31,9 +32,7 @@ export default function Home() {
 
   // Easing function for smooth acceleration and deceleration
   const easeInOutCubic = (t: any) => {
-    return t < 0.5
-      ? 4 * t * t * t
-      : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   };
 
   // Scroll Down function (1.2 seconds long)
@@ -46,9 +45,7 @@ export default function Home() {
     customScroll(0); // Scroll up to the top of the page
   };
 
-
-
-   useEffect(() => {
+  useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const windowHeight = window.innerHeight;
@@ -71,26 +68,25 @@ export default function Home() {
 
   return (
     <main>
-      {scrollDirection === 0 && (
-        <div
-          style={{
-            height: "100vh",
-            width: "100vw",
-            zIndex: 101,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-end",
-            paddingBottom: 20,
-            pointerEvents: "none",
-            position: "absolute",
-            top: 0,
-          }}
-        >
-          <button style={{ pointerEvents: "all" }} onClick={scrollDown}>
-            <RxChevronDown color="white" size={35}/>
-          </button>
-        </div>
-      )}
+      <div
+        style={{
+          height: "100vh",
+          width: "100vw",
+          zIndex: 101,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          pointerEvents: "none",
+          position: "absolute",
+          flexDirection: "column",
+          top: 0,
+        }}
+      >
+        <button onClick={scrollDown} style={{ pointerEvents: "all", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+          <p style={{color: "white", fontSize: "calc(30px + 5vw)"}} className="raleway">PORTFOLIO</p>
+          <RxChevronDown color="white" size={55} />
+        </button>
+      </div>
 
       {scrollDirection === 1 && (
         <div
@@ -109,7 +105,7 @@ export default function Home() {
           }}
         >
           <button style={{ pointerEvents: "all" }} onClick={scrollUp}>
-            <RxChevronUp color="white" size={35}/>
+            <RxChevronUp color="white" size={35} />
           </button>
         </div>
       )}

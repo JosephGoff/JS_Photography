@@ -27,10 +27,18 @@ const Navbar = () => {
     closeNavQuick();
   }, []);
 
+  const [pageDark, setPageDark] = useState(false)
+
   // Initialize the router
   useEffect(() => {
     setCurrentRoute(router);
     closeNavQuick();
+
+    if (router === "/") {
+      setPageDark(false)
+    } else {
+      setPageDark(true)
+    }
   }, [router]);
 
   useEffect(() => {
@@ -179,9 +187,9 @@ const Navbar = () => {
 
   const [currentImage, setCurrentImage] = useState("NAME-WHITE");
   useEffect(() => {
-    const newImage = navWhite || navTrue ? "NAME" : "NAME-WHITE";
+    const newImage = pageDark || navWhite || navTrue ? "NAME" : "NAME-WHITE";
     setCurrentImage(newImage);
-  }, [navWhite, navTrue]);
+  }, [navWhite, navTrue, pageDark]);
 
   return (
     <nav style={{ zIndex: 900 }} className="select-none">
@@ -236,7 +244,7 @@ const Navbar = () => {
                   style={{
                     height: "2px",
                     width: "100%",
-                    backgroundColor: navWhite ? "black" : "white",
+                    backgroundColor: navWhite || pageDark ? "black" : "white",
                     transition: "background-color 1s ease-in-out",
                   }}
                 ></div>
@@ -244,7 +252,7 @@ const Navbar = () => {
                   style={{
                     height: "2px",
                     width: "100%",
-                    backgroundColor: navWhite ? "black" : "white",
+                    backgroundColor: navWhite || pageDark ? "black" : "white",
                     transition: "background-color 1s ease-in-out",
                   }}
                 ></div>
@@ -252,7 +260,7 @@ const Navbar = () => {
                   style={{
                     height: "2px",
                     width: "100%",
-                    backgroundColor: navWhite ? "black" : "white",
+                    backgroundColor: navWhite || pageDark ? "black" : "white",
                     transition: "background-color 1s ease-in-out",
                   }}
                 ></div>
@@ -365,7 +373,7 @@ const Navbar = () => {
             <div className="nav-link">
               <p
                 style={{
-                  color: `${navWhite ? "black" : "white"}`,
+                  color: `${navWhite || pageDark ? "black" : "white"}`,
                   transition: "color 0.8s ease",
                 }}
                 className="nav-link-text"
@@ -378,7 +386,7 @@ const Navbar = () => {
             <div className="nav-link">
               <p
                 style={{
-                  color: `${navWhite ? "black" : "white"}`,
+                  color: `${navWhite || pageDark ? "black" : "white"}`,
                   transition: "color 0.8s ease",
                 }}
                 className="nav-link-text"
