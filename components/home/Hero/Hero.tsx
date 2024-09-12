@@ -12,7 +12,6 @@ const Hero = () => {
         height: "100vh",
         position: "relative",
         zIndex: 100,
-        backgroundColor: "red"
       }}
     >
       <Image
@@ -29,7 +28,6 @@ const Hero = () => {
         height: "100vh",
         position: "relative",
         zIndex: 100,
-        backgroundColor: "red"
       }}
     >
       <Image
@@ -46,7 +44,6 @@ const Hero = () => {
         height: "100vh",
         position: "relative",
         zIndex: 100,
-        backgroundColor: "red"
       }}
     >
       <Image
