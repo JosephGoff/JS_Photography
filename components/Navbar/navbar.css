@@ -109,3 +109,14 @@
   transition: 0.6s ease;
   opacity: 0; 
 }
+
+
+
+.image-transition {
+  transition: opacity 1s ease-in-out; /* Adjust time for smoothness */
+  opacity: 0;
+}
+
+.image-visible {
+  opacity: 1;
+}

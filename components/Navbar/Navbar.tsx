@@ -24,13 +24,13 @@ const Navbar = () => {
     if (navWhiteOverlayRef.current) {
       navWhiteOverlayRef.current.style.opacity = "0";
     }
-    closeNavQuick()
+    closeNavQuick();
   }, []);
 
   // Initialize the router
   useEffect(() => {
     setCurrentRoute(router);
-    closeNavQuick()
+    closeNavQuick();
   }, [router]);
 
   useEffect(() => {
@@ -99,8 +99,10 @@ const Navbar = () => {
     }
   }
 
+  const [navTrue, setNavTrue] = useState(false);
   // Toggle the nav overlay display
   function toggleNav(toggleOpen: boolean) {
+    setNavTrue(toggleOpen);
     if (navOverlayRef.current) {
       if (toggleOpen) {
         navOverlayRef.current.style.opacity = "1";
@@ -139,9 +141,13 @@ const Navbar = () => {
     // }
   };
 
+  const nameImage1Ref = useRef<HTMLImageElement>(null)
+  const nameImage2Ref = useRef<HTMLImageElement>(null)
+
   function closeNavQuick() {
     // Toggle nav quick
     if (navOverlayRef.current) {
+      setNavTrue(false);
       navOverlayRef.current.style.transition = "none";
       navOverlayRef.current.style.opacity = "0";
       navOverlayRef.current.style.pointerEvents = "none";
@@ -155,13 +161,27 @@ const Navbar = () => {
       isOpenRef.current = false;
     }
     setCount((prevCount: number) => prevCount + 1);
+    if (nameImage1Ref.current && nameImage2Ref.current) {
+      nameImage1Ref.current.style.transition = "none"
+      nameImage2Ref.current.style.transition = "none"
+    }
 
-     setTimeout(() => {
+    setTimeout(() => {
       if (navOverlayRef.current) {
         navOverlayRef.current.style.transition = "opacity 0.5s ease";
       }
-      }, 500);
+      if (nameImage1Ref.current && nameImage2Ref.current) {
+        nameImage1Ref.current.style.transition = "opacity 1s ease-in-out"
+        nameImage2Ref.current.style.transition = "opacity 1s ease-in-out"
+      }
+    }, 500);
   }
+
+  const [currentImage, setCurrentImage] = useState("NAME-WHITE");
+  useEffect(() => {
+    const newImage = navWhite || navTrue ? "NAME" : "NAME-WHITE";
+    setCurrentImage(newImage);
+  }, [navWhite, navTrue]);
 
   return (
     <nav style={{ zIndex: 900 }} className="select-none">
@@ -217,7 +237,7 @@ const Navbar = () => {
                     height: "2px",
                     width: "100%",
                     backgroundColor: navWhite ? "black" : "white",
-                    transition: "background-color 0.8s ease",
+                    transition: "background-color 1s ease-in-out",
                   }}
                 ></div>
                 <div
@@ -225,7 +245,7 @@ const Navbar = () => {
                     height: "2px",
                     width: "100%",
                     backgroundColor: navWhite ? "black" : "white",
-                    transition: "background-color 0.8s ease",
+                    transition: "background-color 1s ease-in-out",
                   }}
                 ></div>
                 <div
@@ -233,7 +253,7 @@ const Navbar = () => {
                     height: "2px",
                     width: "100%",
                     backgroundColor: navWhite ? "black" : "white",
-                    transition: "background-color 0.8s ease",
+                    transition: "background-color 1s ease-in-out",
                   }}
                 ></div>
               </div>
@@ -284,7 +304,7 @@ const Navbar = () => {
         </div>
 
         {/* NAME */}
-        <Link href="/" onClick={handleClick}>
+        <Link href="/">
           <div
             style={{
               alignItems: "center",
@@ -293,21 +313,40 @@ const Navbar = () => {
               marginLeft: 20,
               display: "flex",
               cursor: "pointer",
+              position: "relative",
             }}
             className="hover-dim"
           >
+            {/* First Image */}
             <Image
-              src={
-                appData.S3_base_URL_2 +
-                `${navWhite ? "NAME" : "NAME-WHITE"}.png`
-              }
-              className="select-none"
+              ref={nameImage1Ref}
+              src={`${appData.S3_base_URL_2}NAME-WHITE.png`}
+              className={`select-none image-transition ${
+                currentImage === "NAME-WHITE" ? "image-visible" : ""
+              }`}
               alt="signature"
               layout="relative"
               objectFit="cover"
               width={1000}
               height={123}
               draggable="false"
+              style={{ position: "absolute" }}
+            />
+
+            {/* Second Image */}
+            <Image
+              ref={nameImage2Ref}
+              src={`${appData.S3_base_URL_2}NAME.png`}
+              className={`select-none image-transition ${
+                currentImage === "NAME" ? "image-visible" : ""
+              }`}
+              alt="signature"
+              layout="relative"
+              objectFit="cover"
+              width={1000}
+              height={123}
+              draggable="false"
+              style={{ position: "absolute" }}
             />
           </div>
         </Link>

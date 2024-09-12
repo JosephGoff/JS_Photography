@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar/Navbar";
+import Footer from "@/components/Footer/Footer";
 import LoadTransition from '@/components/Transitions/LoadTransition'; // Import the PageTransition component
 
 const inter = Inter({ subsets: ["latin"] });
@@ -22,6 +23,7 @@ export default function RootLayout({
         <LoadTransition>
         <Navbar />
         {children}
+        <Footer />
         </LoadTransition>
       </body>
     </html>
