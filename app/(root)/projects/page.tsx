@@ -3,13 +3,27 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import appData from "../../../app-data.json";
 import "./projects.css";
+import Link from "next/link";
 
 // 165FA7
 
-const ProjectCard = ({ name, origin }: { name: string; origin: string }) => {
+const ProjectCard = ({
+  name,
+  location,
+  link,
+  index,
+}: {
+  name: string;
+  location: string;
+  link: string;
+  index: number;
+}) => {
   return (
-    <div
+    <Link
+      href={`/projects/${link}`}
+      className="dim-all"
       style={{
+        cursor: "pointer",
         paddingLeft: 50,
         width: "100vw",
         height: "230px",
@@ -18,15 +32,18 @@ const ProjectCard = ({ name, origin }: { name: string; origin: string }) => {
         justifyContent: "center",
         alignItems: "flex-start",
         flexDirection: "column",
-        borderBottom: "1px solid #EEE"
+        borderTop: index !== 0? "1px solid #EEE" : "none",
       }}
     >
-      <p
-        style={{zIndex: 102, fontSize: 75, fontWeight: "500", cursor: "pointer" }}
-        className="dim"
+      <div
+        style={{
+          zIndex: 102,
+          fontSize: 75,
+          fontWeight: "500",
+        }}
       >
         {name}
-      </p>
+      </div>
       <p
         style={{
           zIndex: 102,
@@ -37,18 +54,26 @@ const ProjectCard = ({ name, origin }: { name: string; origin: string }) => {
           fontFamily: "arial",
         }}
       >
-        {origin}
+        {location}
       </p>
-      <div style={{zIndex: 101, position: "absolute", right: 30, height: 180, width: 300}}>
-      <Image
-        src="/assets/flower3.png"
-        alt="project card"
-        layout="fill"
-        objectFit="cover"
-        style={{maxHeight: 180}}
-      />
+      <div
+        style={{
+          zIndex: 101,
+          position: "absolute",
+          right: 30,
+          height: 180,
+          width: 300,
+        }}
+      >
+        <Image
+          src="/assets/flower3.png"
+          alt="project card"
+          layout="fill"
+          objectFit="cover"
+          style={{ maxHeight: 180 }}
+        />
       </div>
-    </div>
+    </Link>
   );
 };
 
@@ -59,20 +84,21 @@ const Projects = () => {
         style={{
           width: "100vw",
           paddingTop: 80,
-          paddingBottom: 80,
-          borderBottom: "2px solid black",
+          paddingBottom: 40,
           backgroundColor: "white",
         }}
       >
-        <ProjectCard name="Villa de la Neige" origin="Montpellier, 2015" />
-        <ProjectCard name="The Secret Cave" origin="London, 2015" />
-        <ProjectCard name="Water Pavillion" origin="Pellston, 2010" />
-      </div>
-      <div style={{ padding: 80, fontSize: 18}}>
-        In the Woods. Some seek their good or happiness in power; others in
-        science, and others in the pleasures of the flesh. But those who come
-        truly close to the good understand that it cannot consist in what can
-        only be mastered by a few.
+        {appData.projects.map((project, index) => {
+          return (
+            <ProjectCard
+              key={index}
+              name={project.name}
+              location={project.location}
+              link={project.link}
+              index={index}
+            />
+          );
+        })}
       </div>
     </>
   );

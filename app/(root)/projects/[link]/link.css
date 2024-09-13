@@ -1,0 +1,29 @@
+.location {
+  color: #999;
+}
+
+.details-block {
+  font-weight: 400;
+  font-family: Arial;
+}
+
+.location-value {
+  margin-top: -2;
+}
+
+/* TEXT ANIMATION */
+.project-slide-up-text { 
+    animation: project-slide-up-text 1s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    opacity: 0;
+}
+
+@keyframes project-slide-up-text {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

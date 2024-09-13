@@ -83,9 +83,28 @@
   filter: brightness(0.85);
 }
 
+
+
+
 .dim {
   filter: brightness(0.75);
 }
+
+.dim-first-div:hover > div:first-child {
+  opacity: 0.6; /* Dim the first child by reducing its opacity */
+}
+
+.dim-divs:hover > div {
+  opacity: 0.6; /* Dim all divs within the parent on hover */
+}
+
+.dim-all:hover > * {
+  opacity: 0.6; /* Dim all divs within the parent on hover */
+}
+
+
+
+
 
 .hide-scroll {
   scrollbar-width: none; /* Firefox */

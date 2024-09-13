@@ -312,19 +312,15 @@ const Navbar = () => {
         </div>
 
         {/* NAME */}
-        <Link href="/">
           <div
             style={{
-              alignItems: "center",
               width: "210px",
               height: "70px",
               marginLeft: 20,
-              display: "flex",
-              cursor: "pointer",
-              position: "relative",
             }}
-            className="hover-dim"
+            className="dim"
           >
+            <Link href="/" style={{width: "100%", height: "100%", display: "flex", position: "relative", alignItems: "center" }}>
             {/* First Image */}
             <Image
               ref={nameImage1Ref}
@@ -356,8 +352,8 @@ const Navbar = () => {
               draggable="false"
               style={{ position: "absolute" }}
             />
+            </Link>
           </div>
-        </Link>
 
         {/* NAV SM+ */}
         <div
@@ -399,7 +395,7 @@ const Navbar = () => {
             <div className="nav-link">
               <p
                 style={{
-                  color: `${navWhite ? "black" : "white"}`,
+                  color: `${navWhite || pageDark ? "black" : "white"}`,
                   transition: "color 0.8s ease",
                 }}
                 className="nav-link-text"
@@ -412,7 +408,7 @@ const Navbar = () => {
             <div className="nav-link">
               <p
                 style={{
-                  color: `${navWhite ? "black" : "white"}`,
+                  color: `${navWhite || pageDark ? "black" : "white"}`,
                   transition: "color 0.8s ease",
                 }}
                 className="nav-link-text"
@@ -492,7 +488,7 @@ const Navbar = () => {
               style={{ animationDelay: "0.15s" }}
               className="slide-bottom-up-text overlay-link"
             >
-              {currentRoute === "/projects" && (
+              {currentRoute.startsWith("/projects") && (
                 <div className="nav-overlay-leaf">
                   <IoLeaf size={29} color="black" />
                 </div>
@@ -500,7 +496,7 @@ const Navbar = () => {
               <Link href="/projects" onClick={handleClick}>
                 <p
                   className={`nav-overlay-text lexend-tera ${
-                    currentRoute === "/projects" ? "active-route" : ""
+                    currentRoute.startsWith("/projects") ? "active-route" : ""
                   }`}
                 >
                   PROJECTS
