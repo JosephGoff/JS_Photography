@@ -20,10 +20,18 @@
 @keyframes project-slide-up-text {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.toggle-project-button:hover {
+  background-color: #CCC;
+}
+
+.toggle-project-button {
+  background-color: #DDD;
 }

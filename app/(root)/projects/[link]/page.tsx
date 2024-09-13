@@ -4,11 +4,20 @@ import appData from "../../../../app-data.json";
 import Image from "next/image";
 import "./link.css";
 import { useEffect, useRef } from "react";
+import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
+import Link from "next/link";
 
 const ProjectPage = () => {
   const { link } = useParams();
   const project = appData.projects.find((proj) => proj.link === link);
+  const projectIndex = appData.projects.findIndex((proj) => proj.link === link);
   const whiteOverlayRef = useRef<HTMLDivElement>(null);
+
+  const prevProjectIndex = projectIndex > 0 ? projectIndex - 1 : 0;
+  const prevProject = appData.projects[prevProjectIndex];
+
+  const nextProjectIndex = projectIndex >= appData.projects.length - 1 ? appData.projects.length - 1 : projectIndex + 1;
+  const nextProject = appData.projects[nextProjectIndex];
 
   useEffect(() => {
     if (whiteOverlayRef.current) {
@@ -38,6 +47,63 @@ const ProjectPage = () => {
         }}
       ></div>
 
+      {/* Next Project */}
+      <div
+        style={{
+          height: "100vh",
+          width: "100vw",
+          zIndex: 101,
+          display: "flex",
+          pointerEvents: "none",
+          position: "fixed",
+          top: 0,
+          left: 0,
+        }}
+      >
+        {projectIndex !== 0 && (
+          <Link
+            href={`/projects/${prevProject.link}`}
+            className="toggle-project-button"
+            style={{
+              pointerEvents: "all",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              position: "absolute",
+              left: 15,
+              bottom: 15,
+              borderRadius: "50%",
+              width: 40,
+              height: 40,
+            }}
+          >
+            <RxChevronLeft color="white" size={30} />
+          </Link>
+        )}
+
+        {projectIndex < appData.projects.length - 1 && (
+          <Link
+            href={`/projects/${nextProject.link}`}
+            className="toggle-project-button"
+            style={{
+              pointerEvents: "all",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              position: "absolute",
+              right: 15,
+              bottom: 15,
+              borderRadius: "50%",
+              width: 40,
+              height: 40,
+            }}
+          >
+            <RxChevronRight color="white" size={30} />
+          </Link>
+        )}
+      </div>
+
+      {/* Hero */}
       <div
         style={{
           width: "100vw",
@@ -126,6 +192,28 @@ const ProjectPage = () => {
         text-[calc(630px*.03)] sm:text-[calc(768px*.03)] md:text-[3vw] lg:text-[calc(1020px*.03)]"
       >
         <p>{project.project_description}</p>
+      </div>
+
+      {/* Image 2 */}
+
+      <div
+        className="project-slide-up-text"
+        style={{
+          width: "calc(100vw - 40px)",
+          position: "relative",
+          height: 420,
+          margin: "0 20px 40px 20px",
+        }}
+      >
+        <Image
+          // src={project.imageUrl}
+          src={
+            "https://i-p.rmcdn.net/51b71505874ca473560002f6/1551493/upload-d94a4350-d5dc-41bb-9d65-8e6813416a3f.jpg"
+          }
+          alt={project.name}
+          layout="fill"
+          objectFit="cover"
+        />
       </div>
     </>
   );

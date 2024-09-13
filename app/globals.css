@@ -86,8 +86,8 @@
 
 
 
-.dim {
-  filter: brightness(0.75);
+.dim:hover{
+  opacity: 0.6;
 }
 
 .dim-first-div:hover > div:first-child {
