@@ -27,7 +27,7 @@ const Navbar = () => {
     closeNavQuick();
   }, []);
 
-  const [pageDark, setPageDark] = useState(false)
+  const [pageDark, setPageDark] = useState(false);
 
   // Initialize the router
   useEffect(() => {
@@ -35,9 +35,9 @@ const Navbar = () => {
     closeNavQuick();
 
     if (router === "/") {
-      setPageDark(false)
+      setPageDark(false);
     } else {
-      setPageDark(true)
+      setPageDark(true);
     }
   }, [router]);
 
@@ -45,11 +45,18 @@ const Navbar = () => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const windowHeight = window.innerHeight;
-
-      if (scrollY >= windowHeight && navWhite !== true) {
-        setNavWhite(true); // Scrolled beyond 1x the window height
-      } else if (scrollY < windowHeight && navWhite !== false) {
-        setNavWhite(false); // Scrolled back to less than 1x the window height
+      if (router === "/") {
+        if (scrollY >= windowHeight && navWhite !== true) {
+          setNavWhite(true); // Scrolled beyond 1x the window height
+        } else if (scrollY < windowHeight && navWhite !== false) {
+          setNavWhite(false); // Scrolled back to less than 1x the window height
+        }
+      } else {
+        if (scrollY >= 200 && navWhite !== true) {
+          setNavWhite(true); // Scrolled beyond 1x the window height
+        } else if (scrollY < 200 && navWhite !== false) {
+          setNavWhite(false); // Scrolled back to less than 1x the window height
+        }
       }
     };
 
@@ -149,8 +156,8 @@ const Navbar = () => {
     // }
   };
 
-  const nameImage1Ref = useRef<HTMLImageElement>(null)
-  const nameImage2Ref = useRef<HTMLImageElement>(null)
+  const nameImage1Ref = useRef<HTMLImageElement>(null);
+  const nameImage2Ref = useRef<HTMLImageElement>(null);
 
   function closeNavQuick() {
     // Toggle nav quick
@@ -170,8 +177,8 @@ const Navbar = () => {
     }
     setCount((prevCount: number) => prevCount + 1);
     if (nameImage1Ref.current && nameImage2Ref.current) {
-      nameImage1Ref.current.style.transition = "none"
-      nameImage2Ref.current.style.transition = "none"
+      nameImage1Ref.current.style.transition = "none";
+      nameImage2Ref.current.style.transition = "none";
     }
 
     setTimeout(() => {
@@ -179,8 +186,8 @@ const Navbar = () => {
         navOverlayRef.current.style.transition = "opacity 0.5s ease";
       }
       if (nameImage1Ref.current && nameImage2Ref.current) {
-        nameImage1Ref.current.style.transition = "opacity 1s ease-in-out"
-        nameImage2Ref.current.style.transition = "opacity 1s ease-in-out"
+        nameImage1Ref.current.style.transition = "opacity 1s ease-in-out";
+        nameImage2Ref.current.style.transition = "opacity 1s ease-in-out";
       }
     }, 500);
   }
@@ -312,15 +319,24 @@ const Navbar = () => {
         </div>
 
         {/* NAME */}
-          <div
+        <div
+          style={{
+            width: "210px",
+            height: "70px",
+            marginLeft: 20,
+          }}
+          className="dim"
+        >
+          <Link
+            href="/"
             style={{
-              width: "210px",
-              height: "70px",
-              marginLeft: 20,
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              position: "relative",
+              alignItems: "center",
             }}
-            className="dim"
           >
-            <Link href="/" style={{width: "100%", height: "100%", display: "flex", position: "relative", alignItems: "center" }}>
             {/* First Image */}
             <Image
               ref={nameImage1Ref}
@@ -352,8 +368,8 @@ const Navbar = () => {
               draggable="false"
               style={{ position: "absolute" }}
             />
-            </Link>
-          </div>
+          </Link>
+        </div>
 
         {/* NAV SM+ */}
         <div

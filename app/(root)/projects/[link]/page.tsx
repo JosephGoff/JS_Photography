@@ -3,7 +3,7 @@ import { useParams } from "next/navigation";
 import appData from "../../../../app-data.json";
 import Image from "next/image";
 import "./link.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 import Link from "next/link";
 
@@ -18,12 +18,14 @@ const ProjectPage = () => {
 
   const nextProjectIndex = projectIndex >= appData.projects.length - 1 ? appData.projects.length - 1 : projectIndex + 1;
   const nextProject = appData.projects[nextProjectIndex];
+  
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   useEffect(() => {
     if (whiteOverlayRef.current) {
       whiteOverlayRef.current.style.opacity = "0";
     }
-  }, []);
+  }, [isImageLoaded]);
 
   if (!project) {
     return <h1>Project not found</h1>;
@@ -130,6 +132,7 @@ const ProjectPage = () => {
             alt={project.name}
             layout="fill"
             objectFit="cover"
+            onLoadingComplete={() => setIsImageLoaded(true)}
           />
         </div>
 
@@ -207,9 +210,10 @@ const ProjectPage = () => {
       >
         <Image
           // src={project.imageUrl}
-          src={
-            "https://i-p.rmcdn.net/51b71505874ca473560002f6/1551493/upload-d94a4350-d5dc-41bb-9d65-8e6813416a3f.jpg"
-          }
+          src="https://res.cloudinary.com/dxucsfmcl/image/upload/v1726192399/test_jhn198.jpg"
+          // src={
+          //   "https://i-p.rmcdn.net/51b71505874ca473560002f6/1551493/upload-d94a4350-d5dc-41bb-9d65-8e6813416a3f.jpg"
+          // }
           alt={project.name}
           layout="fill"
           objectFit="cover"
