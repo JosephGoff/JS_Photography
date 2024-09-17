@@ -7,6 +7,7 @@ import { IoLeaf } from "react-icons/io5";
 import appData from "../../app-data.json";
 import "./navbar.css";
 import { usePathname } from "next/navigation";
+import useStore from "@/app/store/storage";
 
 const Navbar = () => {
   const [count, setCount] = useState(0);
@@ -18,19 +19,22 @@ const Navbar = () => {
   const router = usePathname();
   const navOverlayRef = useRef<HTMLDivElement>(null);
   const navWhiteOverlayRef = useRef<HTMLDivElement>(null);
+  const navSMPlus = useRef<HTMLDivElement>(null);
   const [navWhite, setNavWhite] = useState(false);
+  const [pageDark, setPageDark] = useState(false);
+  const setRouteTracker = useStore((state)=>state.setRouteTracker);
+  const { routeTracker } = useStore();
 
-  useEffect(() => {
+  useEffect(()=>{
     if (navWhiteOverlayRef.current) {
       navWhiteOverlayRef.current.style.opacity = "0";
     }
-    closeNavQuick();
-  }, []);
+  },[navOverlayRef])
 
-  const [pageDark, setPageDark] = useState(false);
 
   // Initialize the router
   useEffect(() => {
+    setRouteTracker(router)
     setCurrentRoute(router);
     closeNavQuick();
 
@@ -38,6 +42,25 @@ const Navbar = () => {
       setPageDark(false);
     } else {
       setPageDark(true);
+    }
+
+    if (navSMPlus.current) {
+      const paragraphs = navSMPlus.current.querySelectorAll(".nav-link-text");
+
+      paragraphs.forEach((p) => { 
+        const paragraphElement = p as HTMLParagraphElement; 
+        paragraphElement.style.transition = "none";
+      });
+
+      const timeoutId = setTimeout(() => {
+        paragraphs.forEach((p) => {
+          const paragraphElement = p as HTMLParagraphElement;
+          paragraphElement.style.transition = "color 1s ease";
+          paragraphElement.style.transitionDelay = "0.15s";
+        });
+      }, 1000); 
+
+      return () => clearTimeout(timeoutId); 
     }
   }, [router]);
 
@@ -53,9 +76,9 @@ const Navbar = () => {
         }
       } else {
         if (scrollY >= 200 && navWhite !== true) {
-          setNavWhite(true); // Scrolled beyond 1x the window height
+          setNavWhite(true); // Scrolled beyond 200px
         } else if (scrollY < 200 && navWhite !== false) {
-          setNavWhite(false); // Scrolled back to less than 1x the window height
+          setNavWhite(false); // Scrolled back to less than 200px
         }
       }
     };
@@ -69,11 +92,11 @@ const Navbar = () => {
     };
   }, [navWhite]);
 
-  useEffect(() => {
-    if (navWhiteOverlayRef.current) {
-      navWhiteOverlayRef.current.style.opacity = "0";
-    }
-  }, [navWhiteOverlayRef]);
+  // useEffect(() => {
+  //   if (navWhiteOverlayRef.current) {
+  //     navWhiteOverlayRef.current.style.opacity = "0";
+  //   }
+  // }, [navWhiteOverlayRef]);
 
   // Handle window resizes
   useEffect(() => {
@@ -344,13 +367,11 @@ const Navbar = () => {
               className={`select-none image-transition ${
                 currentImage === "NAME-WHITE" ? "image-visible" : ""
               }`}
+              style={{position: "absolute", objectFit: "cover" }}
               alt="signature"
-              layout="relative"
-              objectFit="cover"
               width={1000}
               height={123}
               draggable="false"
-              style={{ position: "absolute" }}
             />
 
             {/* Second Image */}
@@ -361,18 +382,17 @@ const Navbar = () => {
                 currentImage === "NAME" ? "image-visible" : ""
               }`}
               alt="signature"
-              layout="relative"
-              objectFit="cover"
               width={1000}
               height={123}
               draggable="false"
-              style={{ position: "absolute" }}
+              style={{ position: "absolute", objectFit: "cover" }}
             />
           </Link>
         </div>
 
         {/* NAV SM+ */}
         <div
+          ref={navSMPlus}
           className={`lg:flex hidden justify-center items-center absolute h-[70px]`}
           style={{
             width: "100vw",
@@ -386,7 +406,7 @@ const Navbar = () => {
               <p
                 style={{
                   color: `${navWhite || pageDark ? "black" : "white"}`,
-                  transition: "color 0.8s ease",
+                  transition: "none",
                 }}
                 className="nav-link-text"
               >
@@ -399,7 +419,7 @@ const Navbar = () => {
               <p
                 style={{
                   color: `${navWhite || pageDark ? "black" : "white"}`,
-                  transition: "color 0.8s ease",
+                  transition: "none",
                 }}
                 className="nav-link-text"
               >
@@ -412,7 +432,7 @@ const Navbar = () => {
               <p
                 style={{
                   color: `${navWhite || pageDark ? "black" : "white"}`,
-                  transition: "color 0.8s ease",
+                  transition: "none",
                 }}
                 className="nav-link-text"
               >
@@ -425,7 +445,7 @@ const Navbar = () => {
               <p
                 style={{
                   color: `${navWhite || pageDark ? "black" : "white"}`,
-                  transition: "color 0.8s ease",
+                  transition: "none",
                 }}
                 className="nav-link-text"
               >
@@ -551,7 +571,7 @@ const Navbar = () => {
       </div>
 
       {/* UNDER OVERLAY */}
-      {/* <div
+      <div
         ref={navWhiteOverlayRef}
         style={{
           width: "100vw",
@@ -559,11 +579,12 @@ const Navbar = () => {
           backgroundColor: "white",
           position: "fixed",
           top: 0,
-          opacity: 0,
+          opacity: 1,
           pointerEvents: "none",
           transition: "opacity 0.8s ease",
+          zIndex: 999,
         }}
-      ></div> */}
+      ></div>
     </nav>
   );
 };

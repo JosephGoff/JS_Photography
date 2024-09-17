@@ -27,6 +27,36 @@
       "titleColor": "black",
       "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies."
     },
+        {
+      "name": "The Secret Cave",
+      "link": "secret",
+      "location": "London, UK",
+      "project": "Festival venue",
+      "year": "2015",
+      "imageUrl": "/assets/flower3.png",
+      "titleColor": "black",
+      "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies."
+    },
+        {
+      "name": "The Secret Cave",
+      "link": "secret",
+      "location": "London, UK",
+      "project": "Festival venue",
+      "year": "2015",
+      "imageUrl": "/assets/flower3.png",
+      "titleColor": "black",
+      "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies."
+    },
+        {
+      "name": "The Secret Cave",
+      "link": "secret",
+      "location": "London, UK",
+      "project": "Festival venue",
+      "year": "2015",
+      "imageUrl": "/assets/flower3.png",
+      "titleColor": "black",
+      "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies."
+    },
     {
       "name": "Water Pavillion",
       "link": "water",

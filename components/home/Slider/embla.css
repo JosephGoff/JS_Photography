@@ -1,0 +1,56 @@
+.embla {
+  margin-top: 90px;
+  width: calc(100vw - 5.3vw);
+  margin-left: 5.3vw;
+  position: relative;
+}
+.embla__viewport {
+  overflow: hidden;
+  padding-right: 5.3vw;
+}
+.embla__container {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+}
+.embla__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  transition: padding-right 0.5s ease-in-out;
+  padding-right: 20px; 
+}
+
+.last_slide { padding-right: 0px; }
+
+.embla__slide__number {
+  height: 119vw;
+  position: relative;
+  overflow: hidden;
+}
+.embla__slide__number img {
+  transition: transform 0.6s ease-in-out;
+}
+.embla__slide__number:hover img {
+  transform: scale(1.03); 
+}
+.embla__controls {
+  height: 35px;
+  position: absolute;
+  top: 0;
+}
+.embla__buttons {
+  display: flex;  
+  align-items: center;
+}
+.slider-item-text > * {
+  font-family: "Be Vietnam Pro", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size: calc(13px + .5vw);
+  color: #111;
+}
+
+.slider-header-text {
+  font-family: "Be Vietnam Pro", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}

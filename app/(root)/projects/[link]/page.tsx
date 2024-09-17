@@ -22,7 +22,7 @@ const ProjectPage = () => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   useEffect(() => {
-    if (whiteOverlayRef.current) {
+    if (whiteOverlayRef.current && isImageLoaded) {
       whiteOverlayRef.current.style.opacity = "0";
     }
   }, [isImageLoaded]);
@@ -131,7 +131,7 @@ const ProjectPage = () => {
             }
             alt={project.name}
             layout="fill"
-            objectFit="cover"
+            style={{objectFit: "cover"}}
             onLoadingComplete={() => setIsImageLoaded(true)}
           />
         </div>
@@ -214,9 +214,9 @@ const ProjectPage = () => {
           // src={
           //   "https://i-p.rmcdn.net/51b71505874ca473560002f6/1551493/upload-d94a4350-d5dc-41bb-9d65-8e6813416a3f.jpg"
           // }
+          style={{objectFit: "cover"}}
           alt={project.name}
           layout="fill"
-          objectFit="cover"
         />
       </div>
     </>

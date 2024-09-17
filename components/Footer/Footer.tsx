@@ -31,7 +31,7 @@ const Footer = () => {
           <a href="mailto:jessshul27@gmail.com"
 
            className="dim location-value">
-            jessshulman27@gmail.com
+            jessshul27@gmail.com
           </a>
         </div>
 

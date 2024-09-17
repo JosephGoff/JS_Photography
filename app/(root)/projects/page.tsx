@@ -69,8 +69,7 @@ const ProjectCard = ({
           src="/assets/flower3.png"
           alt="project card"
           layout="fill"
-          objectFit="cover"
-          style={{ maxHeight: 180 }}
+          style={{ maxHeight: 180, objectFit: "cover"}}
         />
       </div>
     </Link>
