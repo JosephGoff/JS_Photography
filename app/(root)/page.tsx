@@ -8,6 +8,8 @@ import "./home.css";
 import Slider from "@/components/home/Slider/Slider";
 import Slider2 from "@/components/home/Slider2/Slider2";
 import useStore from "../store/storage";
+import SpacedParagraph from "@/components/home/SpacedParagraph/SpacedParagraph";
+import Section1 from "@/components/home/Section1/Section1";
 
 export default function Home() {
   const [scrollDirection, setScrollDirection] = useState(0);
@@ -79,39 +81,6 @@ export default function Home() {
       } else if (scrollY < windowHeight && scrollDirection !== 0) {
         setScrollDirection(0); // Scrolled back to less than 1x the window height
       }
-
-      // For spacing effect
-      if (spacingEffectLine1.current && scrollStart.current) {
-        let scrollDistance = 200;
-        if (
-          window.scrollY > scrollStart.current &&
-          window.scrollY <= scrollStart.current + scrollDistance &&
-          spacingEffectLine1.current &&
-          finalLineWidth
-        ) {
-          const percentThere =
-            (window.scrollY - scrollStart.current) / scrollDistance;
-          const difference = window.innerWidth - finalLineWidth.current;
-          spacingEffectLine1.current.style.width = `${
-            finalLineWidth.current + (difference - percentThere * difference)
-          }px`;
-          if (toggleSpacing) toggleSpacing.current = true;
-        } else if (
-          window.scrollY <= scrollStart.current &&
-          toggleSpacing &&
-          toggleSpacing.current === true
-        ) {
-          spacingEffectLine1.current.style.width = `${window.innerWidth}px`;
-          toggleSpacing.current = false;
-        } else if (
-          window.scrollY > scrollStart.current + scrollDistance &&
-          toggleSpacing &&
-          toggleSpacing.current === true
-        ) {
-          spacingEffectLine1.current.style.width = `${finalLineWidth.current}px`;
-          toggleSpacing.current = false;
-        }
-      }
     };
 
     // Add scroll event listener
@@ -123,53 +92,9 @@ export default function Home() {
     };
   }, [scrollDirection]);
 
-  const spacingEffectLine1 = useRef<HTMLDivElement>(null);
-  const scrollStart = useRef<number>(1);
-  let pageLoaded = false;
-  const [offset, setOffset] = useState<number>(0);
-  useEffect(() => {
-    if (window.scrollY !== 0) {
-      window.scrollTo(0, 0);
-      initializeSpacing();
-    } else {
-      initializeSpacing();
-    }
-
-    function initializeSpacing() {
-      if (spacingEffectLine1.current && !pageLoaded) {
-        pageLoaded = true;
-        const spaceOffset = 0.5 * window.innerHeight;
-        setOffset(spaceOffset);
-        if (scrollStart.current)
-          scrollStart.current =
-            spacingEffectLine1.current.getBoundingClientRect().top -
-            spaceOffset;
-        if (finalLineWidth.current)
-          finalLineWidth.current = spacingEffectLine1.current.clientWidth;
-        spacingEffectLine1.current.style.width = `${window.innerWidth}px`;
-        spacingEffectLine1.current.style.justifyContent = "space-between";
-      }
-    }
-  }, [spacingEffectLine1]);
 
   return (
     <main>
-      {/* Overlay */}
-      {/* <div
-        ref={homeOverlayRef}
-        style={{
-          width: "100vw",
-          height: "100vh",
-          backgroundColor: "white",
-          position: "fixed",
-          top: 0,
-          opacity: 0,
-          pointerEvents: "none",
-          transition: "opacity 0.8s ease",
-          zIndex: 900,
-        }}
-      ></div> */}
-
       {/* Portfolio Scroll Down */}
       <div
         style={{
@@ -196,7 +121,7 @@ export default function Home() {
         >
           <p
             style={{ color: "white", fontSize: "calc(30px + 5vw)" }}
-            className="raleway"
+            className="raleway-text"
           >
             PORTFOLIO
           </p>
@@ -241,43 +166,12 @@ export default function Home() {
 
       <Hero />
 
+      {/* Image Slider */}
       <Slider />
       <Slider2 />
 
-      {/* Spaced Words */}
-      <div
-        style={{
-          width: "100vw",
-          height: "100vh",
-          backgroundColor: "white",
-        }}
-      >
-        <div
-          style={{
-            marginTop: 100,
-            width: "100vw",
-            height: "100px",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            ref={spacingEffectLine1}
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              width: "auto",
-            }}
-          >
-            <p className="spacing-effect-p">Your</p>
-            <p className="spacing-effect-p">Brand</p>
-            <p className="spacing-effect-p">Is</p>
-            <p className="spacing-effect-p">Part</p>
-            <p className="spacing-effect-p">Of</p>
-          </div>
-        </div>
-      </div>
+      <Section1 />
+      <SpacedParagraph />
     </main>
   );
 }

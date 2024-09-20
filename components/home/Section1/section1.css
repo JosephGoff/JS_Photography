@@ -1,0 +1,19 @@
+.hover-yellow {
+  transition: color 0.4s ease;
+  color: #aaa;
+}
+.hover-yellow:hover {
+  color: rgb(255, 208, 36);
+}
+
+.section1-image {
+  overflow: hidden;
+}
+
+.section1-image img {
+  transition: transform 0.5s ease-in-out;
+}
+
+.section1-image:hover img {
+  transform: scale(1.015); 
+}

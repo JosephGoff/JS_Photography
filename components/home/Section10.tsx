@@ -3,7 +3,7 @@ import Image from 'next/image'
 import React, { useEffect, useRef } from 'react'
 import appData from "../../app-data.json"
 
-const Section1 = () => {
+const Section10 = () => {
 
   const imageRollRef = useRef<HTMLDivElement>(null)
 
@@ -119,4 +119,4 @@ const Section1 = () => {
   )
 }
 
-export default Section1
+export default Section10

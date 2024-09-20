@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   PrevButton,
   NextButton,
@@ -40,17 +40,49 @@ const Slider2: React.FC = () => {
     };
   }, [emblaApi, onSelect]);
 
+  const SliderRef = useRef<HTMLDivElement>(null)
+  const SliderControlsRef = useRef<HTMLDivElement>(null)
+  const SliderTitleRef = useRef<HTMLDivElement>(null)
+  const SliderTitleRef2 = useRef<HTMLDivElement>(null)
+  let itemsLoaded = false;
+
+  useEffect(() => {
+    const handleSlideInEffect = () => {
+      if (!itemsLoaded && SliderTitleRef.current && SliderTitleRef2.current && SliderRef.current && SliderControlsRef.current) {
+        if (window.scrollY > 165) {
+          SliderTitleRef.current.style.opacity = "1";
+          SliderTitleRef2.current.style.opacity = "1";
+          SliderTitleRef.current.style.paddingTop = "0";
+          SliderTitleRef2.current.style.marginTop = "0";
+        }
+        if (window.scrollY > 255) {
+          SliderRef.current.style.opacity = "1";
+          SliderControlsRef.current.style.opacity = "1";
+          SliderRef.current.style.marginTop = "0";
+          SliderControlsRef.current.style.marginTop = "0";
+          itemsLoaded=true
+        }
+      }
+    }
+
+    window.addEventListener('scroll', handleSlideInEffect);
+    window.addEventListener('resize', handleSlideInEffect);
+    return () => {
+      window.removeEventListener('scroll', handleSlideInEffect);
+      window.removeEventListener('resize', handleSlideInEffect);
+    };
+  }, []);
   return (
     <section className="embla-md md:block hidden mb-[125px]">
-      <div
-        className="leading-[1.18] pb-[28px] slider-header-text flex flex-col sm:flex-row gap-0 sm:gap-0 justify-between
+      <div ref={SliderTitleRef} style={{opacity: 0, paddingTop: "8px", transition: "opacity 1.5s ease, padding-top 1.5s ease"}}
+        className="leading-[1.18] mb-[33px] slider-header-text flex flex-col sm:flex-row gap-0 sm:gap-0 justify-between
         w-[calc(768px*0.45)] sm:w-[calc(768px*0.45)] md:w-[45vw] lg:w-[calc(1024px*0.45)] 
-        text-[calc(768px*.03)] sm:text-[calc(768px*.03)] md:text-[3vw] lg:text-[calc(1024px*.03)]"
+        text-[calc(768px*.0308)] sm:text-[calc(768px*.0308)] md:text-[3.08vw] lg:text-[calc(1024px*.0308)]"
       >
         Auckland-based residential architectural practice by Evelyn McNamara.
       </div>
 
-      <div
+      <div ref={SliderTitleRef2} style={{opacity: 0, marginTop: "8px", transition: "opacity 1.5s ease, margin-top 1.5s ease"}}
         className="underline absolute underline-offset-[4px] slider-header-text 
           w-[calc(768px*0.45)] sm:w-[calc(768px*0.45)] md:w-[45vw] lg:w-[calc(1024px*0.45)] 
           left-[calc(768px*0.30)] sm:left-[calc(768px*0.30)] md:left-[30vw] lg:left-[calc(1024px*0.30)] 
@@ -62,7 +94,7 @@ const Slider2: React.FC = () => {
 
       <div className="md:block hidden" style={{zIndex: 102, right: 0, width: "1vw", height: "38vw", position: "absolute", backgroundColor: "white" }}></div>
       <div className="embla__viewport-md" ref={emblaRef}>
-        <div className="embla__container-md">
+        <div className="embla__container-md" ref={SliderRef}  style={{opacity: 0, marginTop: "8px", transition: "opacity 1.5s ease, margin-top 1.5s ease"}}>
           {appData.projects.map((item, index) => (
             <Link
               href={`/projects/${item.link}`}
@@ -90,9 +122,11 @@ const Slider2: React.FC = () => {
       </div>
 
       <div
+        ref={SliderControlsRef} 
+        style={{opacity: 0, marginTop: "8px", transition: "opacity 1.5s ease, margin-top 1.5s ease"}}
         className="embla__controls
         right-[4.9vw]
-        mt-[calc(650px*.08)] sm:mt-[calc(768px*.08)] md:mt-[8vw] lg:mt-[calc(1024px*.08)]"
+        pt-[calc(768px*.073)] sm:pt-[calc(768px*.073)] md:pt-[7.3vw] lg:pt-[calc(1024px*.073)]"
       >
         <div className="embla__buttons">
           <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
