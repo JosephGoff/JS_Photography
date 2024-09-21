@@ -7,7 +7,6 @@ import { IoLeaf } from "react-icons/io5";
 import appData from "../../app-data.json";
 import "./navbar.css";
 import { usePathname } from "next/navigation";
-import useStore from "@/app/store/storage";
 
 const Navbar = () => {
   const [count, setCount] = useState(0);
@@ -22,19 +21,16 @@ const Navbar = () => {
   const navSMPlus = useRef<HTMLDivElement>(null);
   const [navWhite, setNavWhite] = useState(false);
   const [pageDark, setPageDark] = useState(false);
-  const setRouteTracker = useStore((state)=>state.setRouteTracker);
-  const { routeTracker } = useStore();
 
-  useEffect(()=>{
+  useEffect(() => {
     if (navWhiteOverlayRef.current) {
       navWhiteOverlayRef.current.style.opacity = "0";
     }
-  },[navOverlayRef])
-
+  }, [navOverlayRef]);
 
   // Initialize the router
+  const navContainerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    setRouteTracker(router)
     setCurrentRoute(router);
     closeNavQuick();
 
@@ -44,23 +40,34 @@ const Navbar = () => {
       setPageDark(true);
     }
 
+    window.scrollTo(0, 0);
+    if (navContainerRef.current) {
+      navContainerRef.current.style.transition = "none";
+      setTimeout(() => {
+        if (navContainerRef.current) {
+          navContainerRef.current.style.transition =
+            "background-color 0.8s ease-in-out";
+        }
+      }, 500);
+    }
+
     if (navSMPlus.current) {
       const paragraphs = navSMPlus.current.querySelectorAll(".nav-link-text");
 
-      paragraphs.forEach((p) => { 
-        const paragraphElement = p as HTMLParagraphElement; 
+      paragraphs.forEach((p) => {
+        const paragraphElement = p as HTMLParagraphElement;
         paragraphElement.style.transition = "none";
       });
 
       const timeoutId = setTimeout(() => {
         paragraphs.forEach((p) => {
           const paragraphElement = p as HTMLParagraphElement;
-          paragraphElement.style.transition = "color 1s ease";
+          paragraphElement.style.transition = "color 1s ease-in-out";
           paragraphElement.style.transitionDelay = "0.15s";
         });
-      }, 1000); 
+      }, 1000);
 
-      return () => clearTimeout(timeoutId); 
+      return () => clearTimeout(timeoutId);
     }
   }, [router]);
 
@@ -206,7 +213,7 @@ const Navbar = () => {
 
     setTimeout(() => {
       if (navOverlayRef.current) {
-        navOverlayRef.current.style.transition = "opacity 0.5s ease";
+        navOverlayRef.current.style.transition = "opacity 0.5s ease-in-out";
       }
       if (nameImage1Ref.current && nameImage2Ref.current) {
         nameImage1Ref.current.style.transition = "opacity 1s ease-in-out";
@@ -224,13 +231,15 @@ const Navbar = () => {
   return (
     <nav style={{ zIndex: 900 }} className="select-none">
       <div
+        ref={navContainerRef}
         style={{
-          height: "70px",
           width: "100vw",
-          backgroundColor: navWhite ? "white" : "transparent",
+          backgroundColor:
+            navWhite || router === "/projects" ? "white" : "transparent",
+          height: "70px",
           zIndex: 902,
           position: "fixed",
-          transition: "background-color 0.8s ease",
+          transition: "background-color 0.8s ease-in-out",
         }}
       >
         {/* Hamburger Button */}
@@ -253,7 +262,8 @@ const Navbar = () => {
               }
             }}
             style={{
-              transition: "transform 0.4s ease, opacity 0.4s ease",
+              transition:
+                "transform 0.4s ease-in-out, opacity 0.4s ease-in-out",
               transform:
                 closeRef && closeRef.current
                   ? "rotate(180deg)"
@@ -266,7 +276,7 @@ const Navbar = () => {
               style={{
                 opacity: closeRef && closeRef.current ? 0 : 1,
                 display: closeRef && closeRef.current ? "none" : "block",
-                transition: "opacity 0.4s ease",
+                transition: "opacity 0.4s ease-in-out",
               }}
             >
               <div className="w-[24px] flex flex-col" id="nav-hamburger">
@@ -320,7 +330,8 @@ const Navbar = () => {
             }}
             className="absolute flex items-center"
             style={{
-              transition: "transform 0.4s ease, opacity 0.4s ease",
+              transition:
+                "transform 0.4s ease-in-out, opacity 0.4s ease-in-out",
               transform:
                 closeRef && closeRef.current
                   ? "rotate(180deg)"
@@ -333,7 +344,7 @@ const Navbar = () => {
               style={{
                 opacity: closeRef && closeRef.current ? 1 : 0,
                 display: closeRef && closeRef.current ? "block" : "none",
-                transition: "opacity 0.4s ease",
+                transition: "opacity 0.4s ease-in-out",
               }}
             >
               <TfiClose size={28} color="black" />
@@ -344,11 +355,10 @@ const Navbar = () => {
         {/* NAME */}
         <div
           style={{
-            width: "210px",
             height: "70px",
+            width: "210px",
             marginLeft: 20,
           }}
-          className="dim"
         >
           <Link
             href="/"
@@ -367,7 +377,7 @@ const Navbar = () => {
               className={`select-none image-transition ${
                 currentImage === "NAME-WHITE" ? "image-visible" : ""
               }`}
-              style={{position: "absolute", objectFit: "cover" }}
+              style={{ position: "absolute", objectFit: "cover" }}
               alt="signature"
               width={1000}
               height={123}
@@ -470,7 +480,7 @@ const Navbar = () => {
           top: 0,
           opacity: 0,
           pointerEvents: "none",
-          transition: "opacity 0.5s ease",
+          transition: "opacity 0.5s ease-in-out",
           zIndex: 901,
         }}
       >
@@ -581,7 +591,7 @@ const Navbar = () => {
           top: 0,
           opacity: 1,
           pointerEvents: "none",
-          transition: "opacity 0.8s ease",
+          transition: "opacity 0.8s ease-in-out",
           zIndex: 999,
         }}
       ></div>

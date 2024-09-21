@@ -5,8 +5,8 @@ type StateType = {
     setRouteTracker:(newRoute: string)=>void;
 }
 
-const  useStore = create<StateType>((set) => ({
+const useRouterState = create<StateType>((set) => ({
     routeTracker:"/",
     setRouteTracker: (newRoute: string)=>set((state:StateType)=>({routeTracker: newRoute})),
 }))
-export default useStore;
+export default useRouterState;

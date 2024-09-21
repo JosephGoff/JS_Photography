@@ -18,7 +18,7 @@ const Section1 = () => {
         <div className="w-[100%] md:w-[48%] md:mb-0 mb-[28px] mr-0 md:mr-[45px]">
           <div
             className="montserrat-text"
-            style={{ fontSize: 23, lineHeight: 1.2 }}
+            style={{ fontSize: 23, lineHeight: 1.2, fontWeight: 400 }}
           >
             TALENTED <br className="hidden md:block" />
             PHOTOGRAPHERS <br />

@@ -1,15 +1,15 @@
 "use client";
 import Hero from "@/components/home/Hero/Hero";
 import { useEffect, useRef, useState } from "react";
-import { RxChevronDown } from "react-icons/rx";
 import { RxChevronUp } from "react-icons/rx";
 import { PiArrowDownThin } from "react-icons/pi";
 import "./home.css";
 import Slider from "@/components/home/Slider/Slider";
 import Slider2 from "@/components/home/Slider2/Slider2";
-import useStore from "../store/storage";
 import SpacedParagraph from "@/components/home/SpacedParagraph/SpacedParagraph";
 import Section1 from "@/components/home/Section1/Section1";
+import SmoothScroll from "@/components/SmoothScroll/SmoothScroll";
+import Footer from "@/components/Footer/Footer";
 
 export default function Home() {
   const [scrollDirection, setScrollDirection] = useState(0);
@@ -94,7 +94,7 @@ export default function Home() {
 
 
   return (
-    <main>
+    <SmoothScroll>
       {/* Portfolio Scroll Down */}
       <div
         style={{
@@ -172,6 +172,7 @@ export default function Home() {
 
       <Section1 />
       <SpacedParagraph />
-    </main>
+      <Footer />
+    </SmoothScroll>
   );
 }

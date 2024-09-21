@@ -48,13 +48,13 @@ const Slider: React.FC = () => {
     useEffect(() => {
     const handleSlideInEffect = () => {
       if (!itemsLoaded && SliderTitleRef.current && SliderTitleRef2.current && SliderRef.current && SliderControlsRef.current) {
-        if (window.scrollY > 165) {
+        if (window.scrollY > 195) {
           SliderTitleRef.current.style.opacity = "1";
           SliderTitleRef2.current.style.opacity = "1";
           SliderTitleRef.current.style.paddingTop = "0";
           SliderTitleRef2.current.style.marginTop = "0";
         }
-        if (window.scrollY > 255) {
+        if (window.scrollY > 285) {
           SliderRef.current.style.opacity = "1";
           SliderControlsRef.current.style.opacity = "1";
           SliderRef.current.style.marginTop = "0";

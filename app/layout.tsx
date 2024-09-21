@@ -3,10 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
-import LoadTransition from "@/components/Transitions/LoadTransition"; // Import the PageTransition component
-
-import Section from "../components/Section/Section";
-import SmoothScroll from "../components/SmoothScroll/SmoothScroll";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,11 +19,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <SmoothScroll>
-          <Navbar />
-          {children}
-          <Footer />
-        </SmoothScroll>
+        <Navbar />
+        {children}
       </body>
     </html>
   );

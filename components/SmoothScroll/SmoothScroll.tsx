@@ -1,14 +1,16 @@
-"use client"
+"use client";
 import React, { useEffect, useRef } from "react";
-
+import { usePathname } from "next/navigation";
 import "./SmoothScroll.css";
 import useWindowSize from "../../hooks/useWindowSize";
+
 interface SmoothScrollProps {
   children: React.ReactNode;
 }
 
 const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
   const windowSize = useWindowSize();
+  const router = usePathname();
   const scrollingContainerRef = useRef<HTMLDivElement>(null);
   const data = {
     ease: 0.06,
@@ -18,33 +20,43 @@ const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
   };
 
   useEffect(() => {
-    setBodyHeight();
-  }, [windowSize.height]);
+    const handleResizeOrRouteChange = () => {
+      setBodyHeight();
+      data.current = window.scrollY;
+      data.previous = window.scrollY;
+    };
+
+    handleResizeOrRouteChange();
+    window.addEventListener("resize", handleResizeOrRouteChange);
+
+    return () => {
+      window.removeEventListener("resize", handleResizeOrRouteChange);
+    };
+  }, [windowSize.height, router]);
 
   const setBodyHeight = () => {
     if (scrollingContainerRef.current) {
-      document.body.style.height = `${
-        scrollingContainerRef.current.getBoundingClientRect().height
-      }px`;
+      const contentHeight =
+        scrollingContainerRef.current.getBoundingClientRect().height;
+      document.body.style.height = `${contentHeight}px`;
     }
   };
 
   useEffect(() => {
-    requestAnimationFrame(() => smoothScrollingHandler());
+    const smoothScrollingHandler = () => {
+      data.current = window.scrollY;
+      data.previous += (data.current - data.previous) * data.ease;
+      data.rounded = Math.round(data.previous * 100) / 100;
+
+      if (scrollingContainerRef.current) {
+        scrollingContainerRef.current.style.transform = `translateY(-${data.previous}px)`;
+      }
+
+      requestAnimationFrame(smoothScrollingHandler);
+    };
+
+    requestAnimationFrame(smoothScrollingHandler);
   }, []);
-
-  const smoothScrollingHandler = () => {
-    data.current = window.scrollY;
-    data.previous += (data.current - data.previous) * data.ease;
-    data.rounded = Math.round(data.previous * 100) / 100;
-
-    if (scrollingContainerRef.current) {
-      scrollingContainerRef.current.style.transform = `translateY(-${data.previous}px)`;
-    }
-
-    // Recursive call
-    requestAnimationFrame(() => smoothScrollingHandler());
-  };
 
   return (
     <div className="parent">

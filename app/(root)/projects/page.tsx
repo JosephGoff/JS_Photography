@@ -4,6 +4,8 @@ import React, { useEffect, useRef, useState } from "react";
 import appData from "../../../app-data.json";
 import "./projects.css";
 import Link from "next/link";
+import SmoothScroll from "../../../components/SmoothScroll/SmoothScroll";
+import Footer from "@/components/Footer/Footer";
 
 // 165FA7
 
@@ -18,59 +20,63 @@ const ProjectCard = ({
   link: string;
   index: number;
 }) => {
+  const [image1IsLoaded, setImage1IsLoaded] = useState(false);
+  const image1Url = "/assets/flower3.png";
+
+  // Preload image logic
+  useEffect(() => {
+    const img = new (window as any).Image() as HTMLImageElement;
+    img.src = image1Url;
+
+    img.onload = () => {
+      setImage1IsLoaded(true); 
+    };
+  }, [image1Url]);
+
   return (
-    <Link
-      href={`/projects/${link}`}
-      className="dim-all"
-      style={{
-        cursor: "pointer",
-        paddingLeft: 50,
-        width: "100vw",
-        height: "230px",
-        backgroundColor: "white",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "flex-start",
-        flexDirection: "column",
-        borderTop: index !== 0? "1px solid #EEE" : "none",
-      }}
-    >
+    <Link href={`/projects/${link}`}>
       <div
-        style={{
-          zIndex: 102,
-          fontSize: 75,
-          fontWeight: "500",
-        }}
-      >
-        {name}
-      </div>
-      <p
-        style={{
-          zIndex: 102,
-          fontSize: 12,
-          color: "#999",
-          fontWeight: 100,
-          marginTop: -9,
-          fontFamily: "arial",
-        }}
-      >
-        {location}
-      </p>
-      <div
-        style={{
-          zIndex: 101,
-          position: "absolute",
-          right: 30,
-          height: 180,
-          width: 300,
-        }}
+        style={{ position: "relative" }}
+        className="flex-1 ml-[4vw] md:ml-[6vw] lg:ml-[3vw] mr-[4vw] md:mr-[6vw] lg:mr-[3vw]
+          h-[460px] md:h-[695px] 
+          mb-[46px] md:mb-[46px]
+        "
       >
         <Image
           src="/assets/flower3.png"
           alt="project card"
-          layout="fill"
-          style={{ maxHeight: 180, objectFit: "cover"}}
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          width={1000}
+          height={1000}
+          priority
         />
+        <div
+          className="project-dim"
+          style={{
+            zIndex: 101,
+            width: "100%",
+            height: "100%",
+            top: 0,
+            left: 0,
+            position: "absolute",
+            backgroundColor: "black",
+          }}
+        ></div>
+        <div
+          style={{
+            zIndex: 101,
+            width: "100%",
+            height: "100%",
+            top: 0,
+            left: 0,
+            position: "absolute",
+            display: "flex",
+            alignItems: "center",
+            pointerEvents: "none"
+          }}
+        >
+          <p className="work-sans text-[43px] lg:text-[110px] font-[300] md:font-[400] lg:font-[500] tracking-[2px] ml-[25px] lg:ml-[28px] leading-[1.15]" style={{color: "white"}}>{name}</p>
+        </div>
       </div>
     </Link>
   );
@@ -78,15 +84,13 @@ const ProjectCard = ({
 
 const Projects = () => {
   return (
-    <>
+    <SmoothScroll>
       <div
         style={{
           width: "100vw",
-          paddingTop: 80,
-          paddingBottom: 40,
-          backgroundColor: "white",
         }}
       >
+        <div style={{height: "80px"}}></div>
         {appData.projects.map((project, index) => {
           return (
             <ProjectCard
@@ -99,7 +103,8 @@ const Projects = () => {
           );
         })}
       </div>
-    </>
+      <Footer />
+    </SmoothScroll>
   );
 };
 
