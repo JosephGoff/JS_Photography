@@ -8,7 +8,7 @@ import Slider from "@/components/home/Slider/Slider";
 import Slider2 from "@/components/home/Slider2/Slider2";
 import SpacedParagraph from "@/components/home/SpacedParagraph/SpacedParagraph";
 import Section1 from "@/components/home/Section1/Section1";
-import SmoothScroll from "@/components/SmoothScroll/SmoothScroll";
+import SmoothScroll from "@/effects/SmoothScroll/SmoothScroll";
 import Footer from "@/components/Footer/Footer";
 
 export default function Home() {

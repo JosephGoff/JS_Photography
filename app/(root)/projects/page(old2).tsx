@@ -87,7 +87,7 @@ const Projects = () => {
           backgroundColor: "white",
         }}
       >
-        {appData.projects.map((project, index) => {
+        {appData.pages.projects.map((project, index) => {
           return (
             <ProjectCard
               key={index}

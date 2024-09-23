@@ -373,7 +373,7 @@ const Navbar = () => {
             {/* First Image */}
             <Image
               ref={nameImage1Ref}
-              src={`${appData.S3_base_URL_2}NAME-WHITE.png`}
+              src={`${appData.S3_URL}NAME-WHITE.png`}
               className={`select-none image-transition ${
                 currentImage === "NAME-WHITE" ? "image-visible" : ""
               }`}
@@ -387,7 +387,7 @@ const Navbar = () => {
             {/* Second Image */}
             <Image
               ref={nameImage2Ref}
-              src={`${appData.S3_base_URL_2}NAME.png`}
+              src={`${appData.S3_URL}NAME.png`}
               className={`select-none image-transition ${
                 currentImage === "NAME" ? "image-visible" : ""
               }`}

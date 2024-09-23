@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import appData from "../../../app-data.json";
 import "./projects.css";
 import Link from "next/link";
-import SmoothScroll from "../../../components/SmoothScroll/SmoothScroll";
+import SmoothScroll from "../../../effects/SmoothScroll/SmoothScroll";
 import Footer from "@/components/Footer/Footer";
 
 // 165FA7
@@ -14,36 +14,41 @@ const ProjectCard = ({
   location,
   link,
   index,
+  imageUrl,
 }: {
   name: string;
   location: string;
   link: string;
   index: number;
+  imageUrl: string;
 }) => {
-  const [image1IsLoaded, setImage1IsLoaded] = useState(false);
-  const image1Url = "/assets/flower3.png";
-
-  // Preload image logic
+  const cardRef = useRef<HTMLDivElement>(null);
+  let pageLoaded = false;
   useEffect(() => {
-    const img = new (window as any).Image() as HTMLImageElement;
-    img.src = image1Url;
-
-    img.onload = () => {
-      setImage1IsLoaded(true); 
-    };
-  }, [image1Url]);
+    if (!pageLoaded && cardRef.current) {
+      cardRef.current.style.opacity = "1";
+      cardRef.current.style.transform = "translateY(0)";
+      setTimeout(() => {
+        if (cardRef.current) {
+          cardRef.current.style.transition = "none";
+        }
+      }, 1500);
+      pageLoaded = true
+    }
+  }, [cardRef]);
 
   return (
     <Link href={`/projects/${link}`}>
       <div
-        style={{ position: "relative" }}
-        className="flex-1 ml-[4vw] md:ml-[6vw] lg:ml-[3vw] mr-[4vw] md:mr-[6vw] lg:mr-[3vw]
+        ref={cardRef}
+        style={{ position: "relative", opacity: 0.05, transition: "opacity 1.3s ease-in-out, transform 1.3s ease-in-out", transform: "translateY(10px)" }}
+        className="project-card flex-1 ml-[4vw] md:ml-[6vw] lg:ml-[3vw] mr-[4vw] md:mr-[6vw] lg:mr-[3vw]
           h-[460px] md:h-[695px] 
           mb-[46px] md:mb-[46px]
         "
       >
         <Image
-          src="/assets/flower3.png"
+          src={imageUrl}
           alt="project card"
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
           width={1000}
@@ -72,10 +77,15 @@ const ProjectCard = ({
             position: "absolute",
             display: "flex",
             alignItems: "center",
-            pointerEvents: "none"
+            pointerEvents: "none",
           }}
         >
-          <p className="work-sans text-[43px] lg:text-[110px] font-[300] md:font-[400] lg:font-[500] tracking-[2px] ml-[25px] lg:ml-[28px] leading-[1.15]" style={{color: "white"}}>{name}</p>
+          <p
+            className="work-sans text-[43px] lg:text-[110px] font-[300] md:font-[400] lg:font-[500] tracking-[2px] ml-[25px] lg:ml-[28px] leading-[1.15]"
+            style={{ color: "white" }}
+          >
+            {name}
+          </p>
         </div>
       </div>
     </Link>
@@ -90,14 +100,15 @@ const Projects = () => {
           width: "100vw",
         }}
       >
-        <div style={{height: "80px"}}></div>
-        {appData.projects.map((project, index) => {
+        <div style={{ height: "70px" }}></div>
+        {appData.pages.projects.map((project, index) => {
           return (
             <ProjectCard
               key={index}
               name={project.name}
               location={project.location}
               link={project.link}
+              imageUrl={project.imageUrl}
               index={index}
             />
           );

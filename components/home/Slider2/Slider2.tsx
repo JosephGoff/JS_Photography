@@ -95,7 +95,7 @@ const Slider2: React.FC = () => {
       <div className="md:block hidden" style={{zIndex: 102, right: 0, width: "1vw", height: "38vw", position: "absolute", backgroundColor: "white" }}></div>
       <div className="embla__viewport-md" ref={emblaRef}>
         <div className="embla__container-md" ref={SliderRef}  style={{opacity: 0, marginTop: "8px", transition: "opacity 1.5s ease, margin-top 1.5s ease"}}>
-          {appData.projects.map((item, index) => (
+          {appData.pages.projects.map((item, index) => (
             <Link
               href={`/projects/${item.link}`}
               className="embla__slide-md"

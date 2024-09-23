@@ -97,12 +97,12 @@ const Slider: React.FC = () => {
       <div className="md:hidden" style={{zIndex: 102, right: 0, width: "1.8vw", height: "119vw", position: "absolute", backgroundColor: "white" }}></div> 
       <div className="embla__viewport" ref={emblaRef}>
         <div ref={SliderRef} className="embla__container" style={{opacity: 0, marginTop: "8px", transition: "opacity 1.5s ease-in-out, margin-top 1.5s ease-in-out"}}>
-          {appData.projects.map((item, index) => (
+          {appData.pages.projects.map((item, index) => (
             <Link
               href={`/projects/${item.link}`}
               className={`${
-                currentSlide === appData.projects.length - 1 &&
-                index === appData.projects.length - 1
+                currentSlide === appData.pages.projects.length - 1 &&
+                index === appData.pages.projects.length - 1
                   ? "last_slide"
                   : ""
               } embla__slide`}

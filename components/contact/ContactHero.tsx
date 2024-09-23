@@ -1,5 +1,5 @@
 import React from 'react'
-import WindFarmAnimation from '../animations/WindFarmAnimation'
+import WindFarmAnimation from '../../effects/animations/WindFarmAnimation'
 import Image from 'next/image'
 
 const ContactHero = () => {

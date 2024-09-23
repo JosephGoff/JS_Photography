@@ -35,3 +35,13 @@
 .toggle-project-button {
   background-color: #DDD;
 }
+
+
+.more-projects-dim:hover {
+  opacity: 0.5;
+}
+
+.more-projects-dim {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}

@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import appData from "../../../app-data.json";
-import SmoothScroll from "@/components/SmoothScroll/SmoothScroll";
+import SmoothScroll from "@/effects/SmoothScroll/SmoothScroll";
 import Footer from "@/components/Footer/Footer";
 
 const Contact = () => {

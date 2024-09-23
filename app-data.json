@@ -1,61 +1,71 @@
 {
   "baseURL": "/assets/",
   "S3_base_URL": "https://aws1-bucket1-jg.s3.amazonaws.com/jess-shulman-portfolio/",
-  "S3_base_URL_2": "https://aws1-bucket1-jg.s3.amazonaws.com/JS-2/",
+  "S3_URL": "https://aws1-bucket1-jg.s3.amazonaws.com/JS-2/",
   "colors": {
     "black_1": "#000000"
   },
-  "pages": {},
-  "projects": [
-    {
-      "name": "Amber Waves Designs",
-      "link": "amberwaves",
-      "location": "East Hampton, NY",
-      "project": "Amber Waves Farm",
-      "year": "2024",
-      "imageUrl": "/assets/flower3.png",
-      "titleColor": "black",
-      "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies."
+  "pages": {
+    "home": {
+      "image1": "/assets/home/image1.png"
     },
-    {
-      "name": "SoBro Conservancy",
-      "link": "sobroconvservancy",
-      "location": "Saratoga, NY",
-      "project": "SoBro Conservancy",
-      "year": "2021",
-      "imageUrl": "/assets/flower3.png",
-      "titleColor": "black",
-      "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies."
+    "about": {
+      "image1": "/assets/about/image1.png"
     },
-        {
-      "name": "Personal Projects",
-      "link": "personal-projects",
-      "location": "Allendale, NJ",
-      "project": "Personal Projects",
-      "year": "2022",
-      "imageUrl": "/assets/flower3.png",
-      "titleColor": "black",
-      "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies."
+    "contact": {
+      "image1": "/assets/contact/image1.png"
     },
-        {
-      "name": "Fundraiser Photography",
-      "link": "fundraiser-projects",
-      "location": "NY",
-      "project": "Fundraiser Projects",
-      "year": "2023",
-      "imageUrl": "/assets/flower3.png",
-      "titleColor": "black",
-      "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies."
-    },
-        {
-      "name": "Farm Photography",
-      "link": "farm-photography",
-      "location": "East Hampton, NY",
-      "project": "Farm Photography",
-      "year": "2024",
-      "imageUrl": "/assets/flower3.png",
-      "titleColor": "black",
-      "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies."
-    }
-  ]
+    "projects": [
+      {
+        "name": "Amber Waves Designs",
+        "link": "amberwaves",
+        "location": "East Hampton, NY",
+        "project": "Amber Waves Farm",
+        "year": "2024",
+        "imageUrl": "/assets/flower3.png",
+        "titleColor": "black",
+        "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies."
+      },
+      {
+        "name": "SoBro Conservancy",
+        "link": "sobroconvservancy",
+        "location": "Saratoga, NY",
+        "project": "SoBro Conservancy",
+        "year": "2021",
+        "imageUrl": "/assets/flower3.png",
+        "titleColor": "black",
+        "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies."
+      },
+      {
+        "name": "Personal Projects",
+        "link": "personal-projects",
+        "location": "Allendale, NJ",
+        "project": "Personal Projects",
+        "year": "2022",
+        "imageUrl": "/assets/flower3.png",
+        "titleColor": "black",
+        "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies."
+      },
+      {
+        "name": "Fundraiser Photography",
+        "link": "fundraiser-projects",
+        "location": "NY",
+        "project": "Fundraiser Projects",
+        "year": "2023",
+        "imageUrl": "/assets/flower3.png",
+        "titleColor": "black",
+        "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies."
+      },
+      {
+        "name": "Farm Photography",
+        "link": "farm-photography",
+        "location": "East Hampton, NY",
+        "project": "Farm Photography",
+        "year": "2024",
+        "imageUrl": "/assets/flower3.png",
+        "titleColor": "black",
+        "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies."
+      }
+    ]
+  }
 }
