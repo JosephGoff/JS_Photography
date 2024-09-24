@@ -8,6 +8,7 @@ const Footer = () => {
         width: "100vw",
         borderTop: "1px solid black",
         paddingBottom: "30px",
+        zIndex: 901,
       }}
     >
       <div className="pt-[calc(30px+(768px*.03))] pb-[calc(20px+(768px*.02))] md:pt-[calc(30px+3vw)] md:pb-[calc(20px+2vw)]

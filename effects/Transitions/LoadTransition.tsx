@@ -9,7 +9,6 @@ const LoadTransition = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     // Add the 'loaded' class when the page is fully loaded
     const handleLoad = () => {
-      console.log('Page is fully loaded');
       setIsLoaded(true);
     }
 

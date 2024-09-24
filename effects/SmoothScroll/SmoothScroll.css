@@ -6,3 +6,12 @@
   height: 100%;
   overflow: hidden;
 }
+
+.fixed-child {
+  position: fixed;
+  top: 0x; 
+  right: 0px; 
+  z-index: 100; 
+  background-color: white; 
+  padding: 10px;
+}

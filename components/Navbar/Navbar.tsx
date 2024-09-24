@@ -229,7 +229,7 @@ const Navbar = () => {
   }, [navWhite, navTrue, pageDark]);
 
   return (
-    <nav style={{ zIndex: 900 }} className="select-none">
+    <nav style={{ zIndex: 910 }} className="select-none">
       <div
         ref={navContainerRef}
         style={{
@@ -237,7 +237,7 @@ const Navbar = () => {
           backgroundColor:
             navWhite || router === "/projects" ? "white" : "transparent",
           height: "70px",
-          zIndex: 902,
+          zIndex: 992,
           position: "fixed",
           transition: "background-color 0.8s ease-in-out",
         }}
@@ -481,7 +481,7 @@ const Navbar = () => {
           opacity: 0,
           pointerEvents: "none",
           transition: "opacity 0.5s ease-in-out",
-          zIndex: 901,
+          zIndex: 990,
         }}
       >
         {count >= 0 && isOpenRef && isOpenRef.current && (

@@ -24,7 +24,8 @@
         "year": "2024",
         "imageUrl": "/assets/flower3.png",
         "titleColor": "black",
-        "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies."
+        "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies.",
+        "images": {}
       },
       {
         "name": "SoBro Conservancy",
@@ -34,7 +35,8 @@
         "year": "2021",
         "imageUrl": "/assets/flower3.png",
         "titleColor": "black",
-        "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies."
+        "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies.",
+        "images": {}
       },
       {
         "name": "Personal Projects",
@@ -44,7 +46,8 @@
         "year": "2022",
         "imageUrl": "/assets/flower3.png",
         "titleColor": "black",
-        "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies."
+        "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies.",
+        "images": {}
       },
       {
         "name": "Fundraiser Photography",
@@ -54,7 +57,8 @@
         "year": "2023",
         "imageUrl": "/assets/flower3.png",
         "titleColor": "black",
-        "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies."
+        "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies.",
+        "images": {}
       },
       {
         "name": "Farm Photography",
@@ -64,7 +68,8 @@
         "year": "2024",
         "imageUrl": "/assets/flower3.png",
         "titleColor": "black",
-        "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies."
+        "project_description": "A villa resort for skiers from around the world, Villa de la Neige evokes the feeling of being inside a hotel covered in snow that still retains all the amenities of summer on the Mediterranean: tennis courts, pools, and sunbathing balconies.",
+        "images": {}
       }
     ]
   }

@@ -3,6 +3,7 @@ import { useParams } from "next/navigation";
 import appData from "../../../../app-data.json";
 import Image from "next/image";
 import "./link.css";
+import "../../../../effects/SmoothScroll/SmoothScroll.css";
 import { useEffect, useRef, useState } from "react";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 import Link from "next/link";
@@ -17,92 +18,17 @@ import Section_VBOXR from "./Sections/Section_VBOXR";
 import Section_VV2R from "./Sections/Section_VV2R";
 import Section_VBOXV from "./Sections/Section_VBOXV";
 import Section_VVBOX from "./Sections/Section_VVBOX";
+import useProjectSidebarFixed from "@/app/store/useProjectSidebarFixed";
+import ProjectSidebar from "@/components/ProjectSidebar/ProjectSidebar";
 
 const ProjectPage = () => {
-  const rightSideBottomRef = useRef(1);
-  const rightSideEndRef = useRef(1);
-
-  const secondImageRef = useRef<HTMLDivElement>(null);
-  const lastImageRef = useRef<HTMLDivElement>(null);
-  let rightSideSet = false;
-  let rightSideSet2 = false;
-  useEffect(() => {
-    if (!rightSideSet && secondImageRef.current && rightSideBottomRef.current) {
-      rightSideBottomRef.current =
-        secondImageRef.current.offsetTop;
-      rightSideSet = true;
-    }
-  }, [secondImageRef]);
-
-    useEffect(() => {
-    if (!rightSideSet2 && lastImageRef.current && rightSideEndRef.current) {
-      rightSideEndRef.current =
-        lastImageRef.current.offsetTop;
-      rightSideSet2 = true;
-      console.log(rightSideEndRef.current)
-    }
-  }, [lastImageRef]);
-
-
-
-  const [hasScrolledPastRightSideBottom, setHasScrolledPastRightSideBottom] =
-    useState(false);
-
-  const handleScroll = () => {
-    const scrollY = window.scrollY || window.pageYOffset;
-    if (
-      scrollY > rightSideBottomRef.current - window.innerHeight &&
-      scrollY <= rightSideEndRef.current - window.innerHeight &&
-      !hasScrolledPastRightSideBottom 
-    ) {
-      setHasScrolledPastRightSideBottom(true);
-    } else if (
-      scrollY <= rightSideBottomRef.current - window.innerHeight &&
-      hasScrolledPastRightSideBottom
-    ) {
-      setHasScrolledPastRightSideBottom(false);
-    } else if (
-      scrollY > rightSideEndRef.current - window.innerHeight &&
-      hasScrolledPastRightSideBottom 
-    ) {
-      setHasScrolledPastRightSideBottom(false);
-    }
-  };
-
-  const resetBounds = () => {
-    if (secondImageRef.current && rightSideBottomRef.current) {
-      rightSideBottomRef.current =
-        secondImageRef.current.offsetTop;
-    }
-    if (lastImageRef.current && rightSideEndRef.current) {
-      rightSideEndRef.current =
-        lastImageRef.current.offsetTop;
-    }
-  };
-
-  useEffect(() => {
-    const functionsOnResize = [resetBounds, handleScroll];
-    const handleResize = () => {
-      functionsOnResize.forEach((func) => func());
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup on unmount
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [hasScrolledPastRightSideBottom]);
-
   const { link } = useParams();
   const project = appData.pages.projects.find((proj) => proj.link === link);
   const projectIndex = appData.pages.projects.findIndex(
     (proj) => proj.link === link
   );
-  const whiteOverlayRef = useRef<HTMLDivElement>(null);
 
+  // Next and previous projects
   const prevProjectIndex = projectIndex > 0 ? projectIndex - 1 : 0;
   const prevProject = appData.pages.projects[prevProjectIndex];
 
@@ -112,52 +38,108 @@ const ProjectPage = () => {
       : projectIndex + 1;
   const nextProject = appData.pages.projects[nextProjectIndex];
 
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  // Logic for right sidebar display
+  const {
+    projectSidebarFixed,
+    projectSidebarFirstTrigger,
+    projectSidebarSecondTrigger,
+    setProjectSidebarFixed,
+    setProjectSidebarFirstTrigger,
+    setProjectSidebarSecondTrigger,
+  } = useProjectSidebarFixed();
 
+  const secondImageRef = useRef<HTMLDivElement>(null);
+  const lastImageRef = useRef<HTMLDivElement>(null);
+  let rightSideSet = false;
+  let rightSideSet2 = false;
+  useEffect(() => {
+    if (!rightSideSet && secondImageRef.current) {
+        let titleOverflowAddition = 0
+        if (textRef.current) {
+          titleOverflowAddition = textRef.current.clientHeight > 100? 40 : 0
+        }
+      setProjectSidebarFirstTrigger(
+        secondImageRef.current.offsetTop - window.innerHeight + titleOverflowAddition + 45
+      );
+      rightSideSet = true;
+    }
+  }, [secondImageRef]);
+
+  useEffect(() => {
+    if (!rightSideSet2 && lastImageRef.current) {
+           let titleOverflowAddition = 0
+        if (textRef.current) {
+          titleOverflowAddition = textRef.current.clientHeight > 100? 40 : 0
+        }
+      setProjectSidebarSecondTrigger(
+        lastImageRef.current.offsetTop - window.innerHeight + titleOverflowAddition + 45
+      );
+      rightSideSet2 = true;
+    }
+  }, [lastImageRef]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      let titleOverflowAddition = 0
+        if (textRef.current) {
+          titleOverflowAddition = textRef.current.clientHeight > 100? 40 : 0
+        }
+      if (secondImageRef.current) {
+        setProjectSidebarFirstTrigger(
+          secondImageRef.current.offsetTop - window.innerHeight + titleOverflowAddition + 45
+        );
+      }
+      if (lastImageRef.current) {
+        setProjectSidebarSecondTrigger(
+          lastImageRef.current.offsetTop - window.innerHeight + titleOverflowAddition + 45
+        );
+      }
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // Overlay
+  const whiteOverlayRef = useRef<HTMLDivElement>(null);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
   useEffect(() => {
     if (whiteOverlayRef.current && isImageLoaded) {
       whiteOverlayRef.current.style.opacity = "0";
     }
   }, [isImageLoaded]);
 
+  // Calculate margin top for spacing for the project title
   const textRef = useRef<HTMLDivElement>(null);
   const [marginTop, setMarginTop] = useState(0);
-
   useEffect(() => {
     const handleResize = () => {
       if (textRef.current) {
-        const height = textRef.current.clientHeight; // Get the height of the text
-        const calculatedMarginTop = calculateMarginTop(height);
-        setMarginTop(calculatedMarginTop); // Set the marginTop dynamically
+        const height = textRef.current.clientHeight;
+        const calculatedMarginTop = height > 100 ? 40 : 0;
+        setMarginTop(calculatedMarginTop);
       }
     };
 
-    // Calculate marginTop on initial render
     handleResize();
-
-    // Add event listener for window resize
     window.addEventListener("resize", handleResize);
-
-    // Cleanup event listener on unmount
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  const calculateMarginTop = (height: any) => {
-    // You can define your custom logic here based on the height
-    // For example, you might want to reduce marginTop as the height increases
-    return height > 100 ? 40 : 0; // Example logic
-  };
-
+  // Ease in out effect
   const duration = 1200;
   const easeInOutCubic = (t: any) => {
     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   };
 
-  const [scrollingTop, setScrollingTop] = useState(false)
+  // Scroll to top button effect
+  const [scrollingTop, setScrollingTop] = useState(false);
   const scrollToTop = () => {
-    setScrollingTop(true)
+    setScrollingTop(true);
     const startY = window.pageYOffset;
     const distance = 0 - startY;
     const startTime = performance.now();
@@ -172,37 +154,36 @@ const ProjectPage = () => {
       if (progress < 1) {
         requestAnimationFrame(scroll); // Continue scrolling until done
       } else {
-        setScrollingTop(false)
+        setScrollingTop(false);
       }
     };
-
     requestAnimationFrame(scroll);
   };
 
+  // 404
   if (!project) {
     return <h1>Project not found</h1>;
   }
 
   return (
     <>
-      <div
-        className="md:flex hidden"
-        style={{
-          height: "100vh",
-          width: "calc(220px + 5vw)",
-          position: "fixed",
-          top: 0,
-          right: 0,
-          zIndex: 901,
-          opacity: `${!hasScrolledPastRightSideBottom || scrollingTop? 0 : 1}`,
-          pointerEvents: "none",
-          transition: "opacity 1s ease-in-out",
-        }}
-      >
-        <p style={{ marginTop: "700px", marginLeft: 20, fontSize: "30px" }}>
-          Hi
-        </p>
-      </div>
+      {projectSidebarFixed && (
+        <div
+          className="lg:flex hidden"
+          style={{
+            height: "100vh",
+            width: "calc(220px + 5vw)",
+            position: "fixed",
+            top: 0,
+            right: 0,
+            zIndex: 901,
+            pointerEvents: "none",
+          }}
+        >
+          <ProjectSidebar />
+        </div>
+      )}
+
       {/* Next Project */}
       <div
         style={{
@@ -275,6 +256,42 @@ const ProjectPage = () => {
             zIndex: 200,
           }}
         ></div>
+
+        {/* First right sidebar - top of link page */}
+        {!projectSidebarFixed && (
+          <div
+            className="lg:flex hidden"
+            style={{
+              height: "100vh",
+              width: "calc(220px + 5vw)",
+              marginTop: `${projectSidebarFirstTrigger}px`,
+              right: 0,
+              position: "absolute",
+              zIndex: 903,
+              pointerEvents: "none",
+            }}
+          >
+            <ProjectSidebar />
+          </div>
+        )}
+
+        {/* Second right sidebar - bottom of link page */}
+        {!projectSidebarFixed && (
+          <div
+            className="lg:flex hidden"
+            style={{
+              height: "100vh",
+              width: "calc(220px + 5vw)",
+              marginTop: `${projectSidebarSecondTrigger}px`,
+              right: 0,
+              position: "absolute",
+              zIndex: 903,
+              pointerEvents: "none",
+            }}
+          >
+            <ProjectSidebar />
+          </div>
+        )}
 
         {/* Hero */}
         <div
@@ -360,7 +377,7 @@ const ProjectPage = () => {
 
         {/* Text 1 */}
         <div
-          className="project-slide-up-text
+          className="project-slide-up-text font-[300] 
         leading-[1.3] pt-[calc(30px+3vw)] pb-[calc(20px+2vw)] ml-[50px] md:ml-[6.5vw]
         w-[calc(640px*0.60)] sm:w-[calc(768px*0.60)] md:w-[60vw] lg:w-[calc(1040px*0.60)] 
         text-[calc(630px*.03)] sm:text-[calc(768px*.03)] md:text-[3vw] lg:text-[calc(1020px*.03)]"
@@ -369,9 +386,11 @@ const ProjectPage = () => {
         </div>
 
         {/* Sections */}
-        <div className="md:w-[calc(95vw-220px)] w-[100vw]">
-          <Section_H image1={project.imageUrl} />
-          <div ref={secondImageRef}></div>
+        <div className="lg:w-[calc(95vw-220px)] w-[100vw] flex flex-col gap-[45px+2vw]">
+          <div>
+            <Section_H image1={project.imageUrl} />
+            <div ref={secondImageRef}></div>
+          </div>
           <Section_VV image1={project.imageUrl} image2={project.imageUrl} />
           <Section_H image1={project.imageUrl} />
           <Section_VBOXR image1={project.imageUrl} />
@@ -393,10 +412,13 @@ const ProjectPage = () => {
         </div>
         <div ref={lastImageRef}></div>
 
-
+        {/* Scroll To Top */}
         <div
           onClick={scrollToTop}
-          style={{zIndex: 902, background: "linear-gradient(to bottom, transparent, white)"}}
+          style={{
+            zIndex: 902,
+            background: "linear-gradient(to bottom, transparent, white)",
+          }}
           className="flex justify-center pt-[140px] pb-[45px] w-[100vw]"
         >
           <p
@@ -447,7 +469,7 @@ const ProjectPage = () => {
           >
             More Projects
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-5 px-5 py-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-5 px-[45px] md:px-[6vw] py-5">
             {appData.pages.projects
               .filter((project) => project.link !== link)
               .map((project) => (
