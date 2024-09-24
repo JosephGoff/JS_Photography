@@ -5,10 +5,13 @@ import appData from "../../../app-data.json"
 
 const Hero = () => {
   const images = [
-    "ipad-bg.png",
-    "ipad-bg.png",
-    "ipad-bg.png",
-  ].map(image => appData.S3_base_URL + "designs/" + image);
+    "home1.jpeg",
+    "home2.jpeg",
+    "home3.jpeg",
+    "home4.jpeg",
+    "home5.jpeg",
+    "home6.jpeg",
+  ]
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -38,7 +41,7 @@ const Hero = () => {
             height: "100%",
           }}
           key={index}
-          src={image}
+          src={"/assets/" + image}
           alt={`Slide ${index + 1}`}
           className={`slider-image ${currentIndex === index ? "active" : ""}`}
           width={1000}

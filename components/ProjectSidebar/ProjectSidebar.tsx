@@ -35,7 +35,7 @@ const ProjectSidebar = () => {
         </div>
         <div>
           <div className="font-[300]">Description</div>
-          <div className="font-[100]">you better like my project mmm</div>
+          <div className="font-[100]">I have a chair I have a chair</div>
         </div>
         <div>
           <div className="font-[300]">Creator</div>

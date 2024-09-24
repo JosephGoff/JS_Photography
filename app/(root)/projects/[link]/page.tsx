@@ -47,6 +47,7 @@ const ProjectPage = () => {
     setProjectSidebarFirstTrigger,
     setProjectSidebarSecondTrigger,
   } = useProjectSidebarFixed();
+  const projectSidebarFirstTriggerRef = useRef(projectSidebarFirstTrigger);
 
   const secondImageRef = useRef<HTMLDivElement>(null);
   const lastImageRef = useRef<HTMLDivElement>(null);
@@ -54,51 +55,81 @@ const ProjectPage = () => {
   let rightSideSet2 = false;
   useEffect(() => {
     if (!rightSideSet && secondImageRef.current) {
-        let titleOverflowAddition = 0
-        if (textRef.current) {
-          titleOverflowAddition = textRef.current.clientHeight > 100? 40 : 0
-        }
+      let titleOverflowAddition = 0;
+      if (textRef.current) {
+        titleOverflowAddition = textRef.current.clientHeight > 100 ? 40 : 0;
+      }
       setProjectSidebarFirstTrigger(
-        secondImageRef.current.offsetTop - window.innerHeight + titleOverflowAddition + 45
+        secondImageRef.current.offsetTop -
+          window.innerHeight +
+          titleOverflowAddition +
+          45
       );
+      projectSidebarFirstTriggerRef.current = secondImageRef.current.offsetTop -
+          window.innerHeight +
+          titleOverflowAddition +
+          45
       rightSideSet = true;
     }
   }, [secondImageRef]);
 
   useEffect(() => {
     if (!rightSideSet2 && lastImageRef.current) {
-           let titleOverflowAddition = 0
-        if (textRef.current) {
-          titleOverflowAddition = textRef.current.clientHeight > 100? 40 : 0
-        }
+      let titleOverflowAddition = 0;
+      if (textRef.current) {
+        titleOverflowAddition = textRef.current.clientHeight > 100 ? 40 : 0;
+      }
       setProjectSidebarSecondTrigger(
-        lastImageRef.current.offsetTop - window.innerHeight + titleOverflowAddition + 45
+        lastImageRef.current.offsetTop -
+          window.innerHeight +
+          titleOverflowAddition +
+          45
       );
       rightSideSet2 = true;
     }
   }, [lastImageRef]);
 
+  const firstSidebarRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const handleResize = () => {
-      let titleOverflowAddition = 0
-        if (textRef.current) {
-          titleOverflowAddition = textRef.current.clientHeight > 100? 40 : 0
-        }
       if (secondImageRef.current) {
         setProjectSidebarFirstTrigger(
-          secondImageRef.current.offsetTop - window.innerHeight + titleOverflowAddition + 45
+          secondImageRef.current.offsetTop -
+            window.innerHeight +
+            45
         );
+        projectSidebarFirstTriggerRef.current = secondImageRef.current.offsetTop -
+          window.innerHeight +
+          45
       }
       if (lastImageRef.current) {
         setProjectSidebarSecondTrigger(
-          lastImageRef.current.offsetTop - window.innerHeight + titleOverflowAddition + 45
+          lastImageRef.current.offsetTop -
+            window.innerHeight +
+            45
         );
       }
     };
+
+    const handleScroll = () => {
+      if (firstSidebarRef.current && projectSidebarFirstTriggerRef.current) {
+        console.log(window.scrollY, projectSidebarFirstTriggerRef.current)
+        const startingVal = projectSidebarFirstTriggerRef.current - 250
+        if (window.scrollY > startingVal && window.scrollY <= projectSidebarFirstTriggerRef.current) {
+          const percentThere = (projectSidebarFirstTriggerRef.current - window.scrollY) / 250
+          firstSidebarRef.current.style.opacity = `${1 - percentThere}`
+          console.log("percent", percentThere)
+        }
+      }
+    }
+
     window.addEventListener("resize", handleResize);
+    window.addEventListener("scroll", handleScroll);
+
 
     return () => {
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -159,6 +190,39 @@ const ProjectPage = () => {
     };
     requestAnimationFrame(scroll);
   };
+
+  // Transition each item in
+  const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const options = {
+      root: null, // viewport
+      threshold: 0.1, // trigger when 10% of the section is visible
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("fade-in-visible");
+        }
+      });
+    }, options);
+
+    // Observe each section
+    sectionsRef.current.forEach((section) => {
+      if (section) {
+        observer.observe(section);
+      }
+    });
+
+    return () => {
+      sectionsRef.current.forEach((section) => {
+        if (section) {
+          observer.unobserve(section);
+        }
+      });
+    };
+  }, []);
 
   // 404
   if (!project) {
@@ -260,6 +324,7 @@ const ProjectPage = () => {
         {/* First right sidebar - top of link page */}
         {!projectSidebarFixed && (
           <div
+            ref={firstSidebarRef}
             className="lg:flex hidden"
             style={{
               height: "100vh",
@@ -269,6 +334,7 @@ const ProjectPage = () => {
               position: "absolute",
               zIndex: 903,
               pointerEvents: "none",
+              opacity: 0,
             }}
           >
             <ProjectSidebar />
@@ -387,10 +453,67 @@ const ProjectPage = () => {
 
         {/* Sections */}
         <div className="lg:w-[calc(95vw-220px)] w-[100vw] flex flex-col gap-[45px+2vw]">
-          <div>
+          <div className="">
             <Section_H image1={project.imageUrl} />
             <div ref={secondImageRef}></div>
           </div>
+          {[
+            <Section_VV
+              key="section-vv-1"
+              image1={project.imageUrl}
+              image2={project.imageUrl}
+            />,
+            <Section_H key="section-h-2" image1={project.imageUrl} />,
+            <Section_VBOXR key="section-vboxr-1" image1={project.imageUrl} />,
+            <Section_HM key="section-hm-1" image1={project.imageUrl} />,
+            <Section_H key="section-h-3" image1={project.imageUrl} />,
+            <Section_H key="section-h-4" image1={project.imageUrl} />,
+            <Section_VV2
+              key="section-vv2-1"
+              image1={project.imageUrl}
+              image2={project.imageUrl}
+            />,
+            <Section_HM key="section-hm-2" image1={project.imageUrl} />,
+            <Section_VBOX key="section-vbox-1" image1={project.imageUrl} />,
+            <Section_H key="section-h-5" image1={project.imageUrl} />,
+            <Section_VV2R
+              key="section-vv2r-1"
+              image1={project.imageUrl}
+              image2={project.imageUrl}
+            />,
+            <Section_H key="section-h-6" image1={project.imageUrl} />,
+            <Section_VBOXV
+              key="section-vboxv-1"
+              image1={project.imageUrl}
+              image2={project.imageUrl}
+            />,
+            <Section_H key="section-h-7" image1={project.imageUrl} />,
+            <Section_VVBOX
+              key="section-vvbox-1"
+              image1={project.imageUrl}
+              image2={project.imageUrl}
+            />,
+            <Section_H key="section-h-8" image1={project.imageUrl} />,
+            <Section_VV2R
+              key="section-vv2r-2"
+              image1={project.imageUrl}
+              image2={project.imageUrl}
+            />,
+            <Section_H key="section-h-9" image1={project.imageUrl} />,
+          ].map((section, index) => (
+            <div
+              key={index}
+              className="fade-in"
+              ref={(el: any) => (sectionsRef.current[index] = el)}
+            >
+              {section}
+            </div>
+          ))}
+        </div>
+
+        {/* Sections */}
+        {/* <div className="lg:w-[calc(95vw-220px)] w-[100vw] flex flex-col gap-[45px+2vw]">
+
           <Section_VV image1={project.imageUrl} image2={project.imageUrl} />
           <Section_H image1={project.imageUrl} />
           <Section_VBOXR image1={project.imageUrl} />
@@ -409,7 +532,8 @@ const ProjectPage = () => {
           <Section_H image1={project.imageUrl} />
           <Section_VV2R image1={project.imageUrl} image2={project.imageUrl} />
           <Section_H image1={project.imageUrl} />
-        </div>
+        </div> */}
+
         <div ref={lastImageRef}></div>
 
         {/* Scroll To Top */}
