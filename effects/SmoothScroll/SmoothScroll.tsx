@@ -45,9 +45,11 @@ const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
 
   const {
     projectSidebarFixed,
+    hasPassedFirstTrigger,
     projectSidebarFirstTrigger,
     projectSidebarSecondTrigger,
     setProjectSidebarFixed,
+    setHasPassedFirstTrigger,
   } = useProjectSidebarFixed();
 
   const projectSidebarFixedRef = useRef(projectSidebarFixed);
@@ -72,21 +74,26 @@ const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
       data.rounded = Math.round(data.previous * 100) / 100;
       if (
         data.previous >= projectSidebarFirstTriggerRef.current &&
-        data.previous < projectSidebarSecondTriggerRef.current &&
-        !projectSidebarFixedRef.current
+        !hasPassedFirstTrigger
       ) {
-        setProjectSidebarFixed(true);
+        setHasPassedFirstTrigger(true);
       } else if (
-        data.previous < projectSidebarFirstTriggerRef.current && 
-        projectSidebarFixedRef.current
+        data.previous < projectSidebarFirstTriggerRef.current &&
+        hasPassedFirstTrigger
       ) {
-        setProjectSidebarFixed(false);
-      } else if (
+        setHasPassedFirstTrigger(false);
+      }
+      
+      if (
         data.previous >= projectSidebarSecondTriggerRef.current &&
         projectSidebarFixedRef.current
       ) {
         setProjectSidebarFixed(false);
-      }
+      } else if (data.previous < projectSidebarSecondTriggerRef.current &&
+        !projectSidebarFixedRef.current
+      ) {
+        setProjectSidebarFixed(true);
+      } 
 
       // Smooth scroll effect
       if (scrollingContainerRef.current) {
