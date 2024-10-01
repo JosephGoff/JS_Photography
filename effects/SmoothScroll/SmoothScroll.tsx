@@ -52,15 +52,15 @@ const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
     setHasPassedFirstTrigger,
   } = useProjectSidebarFixed();
 
-  const projectSidebarFixedRef = useRef(projectSidebarFixed);
-  useEffect(() => {
-    projectSidebarFixedRef.current = projectSidebarFixed;
-  }, [projectSidebarFixed]);
+  // const projectSidebarFixedRef = useRef(projectSidebarFixed);
+  // useEffect(() => {
+  //   projectSidebarFixedRef.current = projectSidebarFixed;
+  // }, [projectSidebarFixed]);
 
-  const projectSidebarFirstTriggerRef = useRef(projectSidebarFirstTrigger);
-  useEffect(() => {
-    projectSidebarFirstTriggerRef.current = projectSidebarFirstTrigger;
-  }, [projectSidebarFirstTrigger]);
+  // const projectSidebarFirstTriggerRef = useRef(projectSidebarFirstTrigger);
+  // useEffect(() => {
+  //   projectSidebarFirstTriggerRef.current = projectSidebarFirstTrigger;
+  // }, [projectSidebarFirstTrigger]);
 
   const projectSidebarSecondTriggerRef = useRef(projectSidebarSecondTrigger);
   useEffect(() => {
@@ -72,28 +72,28 @@ const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
       data.current = window.scrollY;
       data.previous += (data.current - data.previous) * data.ease;
       data.rounded = Math.round(data.previous * 100) / 100;
-      if (
-        data.previous >= projectSidebarFirstTriggerRef.current &&
-        !hasPassedFirstTrigger
-      ) {
-        setHasPassedFirstTrigger(true);
-      } else if (
-        data.previous < projectSidebarFirstTriggerRef.current &&
-        hasPassedFirstTrigger
-      ) {
-        setHasPassedFirstTrigger(false);
-      }
+      // if (
+      //   data.previous >= projectSidebarFirstTriggerRef.current &&
+      //   !hasPassedFirstTrigger
+      // ) {
+      //   setHasPassedFirstTrigger(true);
+      // } else if (
+      //   data.previous < projectSidebarFirstTriggerRef.current &&
+      //   hasPassedFirstTrigger
+      // ) {
+      //   setHasPassedFirstTrigger(false);
+      // }
       
-      if (
-        data.previous >= projectSidebarSecondTriggerRef.current &&
-        projectSidebarFixedRef.current
-      ) {
-        setProjectSidebarFixed(false);
-      } else if (data.previous < projectSidebarSecondTriggerRef.current &&
-        !projectSidebarFixedRef.current
-      ) {
-        setProjectSidebarFixed(true);
-      } 
+      // if (
+      //   data.previous >= projectSidebarSecondTriggerRef.current &&
+      //   projectSidebarFixedRef.current
+      // ) {
+      //   setProjectSidebarFixed(false);
+      // } else if (data.previous < projectSidebarSecondTriggerRef.current &&
+      //   !projectSidebarFixedRef.current
+      // ) {
+      //   setProjectSidebarFixed(true);
+      // } 
 
       // Smooth scroll effect
       if (scrollingContainerRef.current) {

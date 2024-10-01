@@ -10,11 +10,11 @@ import SpacedParagraph from "@/components/home/SpacedParagraph/SpacedParagraph";
 import Section1 from "@/components/home/Section1/Section1";
 import SmoothScroll from "@/effects/SmoothScroll/SmoothScroll";
 import Footer from "@/components/Footer/Footer";
+import Gallery from "@/components/Gallery/Gallery";
 
 export default function Home() {
   const [scrollDirection, setScrollDirection] = useState(0);
   const duration = 1200;
-  const homeOverlayRef = useRef<HTMLDivElement>(null);
   const portfolioButtonRef = useRef<HTMLButtonElement>(null);
   const porfolioArrowButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -170,8 +170,12 @@ export default function Home() {
       <Slider />
       <Slider2 />
 
-      <Section1 />
       <SpacedParagraph />
+
+      <Gallery />
+
+      {/* <Section1 />
+      <SpacedParagraph /> */}
       <Footer />
     </SmoothScroll>
   );

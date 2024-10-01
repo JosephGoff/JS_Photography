@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import appData from "../../../app-data.json";
 import SmoothScroll from "@/effects/SmoothScroll/SmoothScroll";
 import Footer from "@/components/Footer/Footer";
+import Footer2 from "@/components/Footer2/Footer2";
 
 const Contact = () => {
   return (
@@ -14,7 +15,7 @@ const Contact = () => {
       >
         <p style={{ color: "white", fontSize: 30 }}>CONTACT</p>
       </div>
-      <Footer />
+      <Footer2 />
     </SmoothScroll>
   );
 };

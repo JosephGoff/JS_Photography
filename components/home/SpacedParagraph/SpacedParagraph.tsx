@@ -92,7 +92,6 @@ const SpacedParagraph = () => {
       style={{
         width: "100vw",
         height: "300px",
-        backgroundColor: "#eee",
       }}
     >
       <div

@@ -437,6 +437,19 @@ const Navbar = () => {
               </p>
             </div>
           </Link>
+          {/* <Link href="/gallery">
+            <div className="nav-link">
+              <p
+                style={{
+                  color: `${navWhite || pageDark ? "black" : "white"}`,
+                  transition: "none",
+                }}
+                className="nav-link-text"
+              >
+                gallery
+              </p>
+            </div>
+          </Link> */}
           <a href="https://www.redbubble.com/people/jessshuly/shop?asc=u">
             <div className="nav-link">
               <p
@@ -549,6 +562,25 @@ const Navbar = () => {
                 </p>
               </Link>
             </li>
+            {/* <li
+              style={{ animationDelay: "0.15s" }}
+              className="slide-bottom-up-text overlay-link"
+            >
+              {currentRoute.startsWith("/gallery") && (
+                <div className="nav-overlay-leaf">
+                  <IoLeaf size={29} color="black" />
+                </div>
+              )}
+              <Link href="/gallery" onClick={handleClick}>
+                <p
+                  className={`nav-overlay-text lexend-tera ${
+                    currentRoute.startsWith("/gallery") ? "active-route" : ""
+                  }`}
+                >
+                  GALLERY
+                </p>
+              </Link>
+            </li> */}
             <li
               style={{ animationDelay: "0.225s" }}
               className="slide-bottom-up-text overlay-link"

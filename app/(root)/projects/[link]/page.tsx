@@ -159,14 +159,14 @@ const ProjectPage = () => {
     };
 
     const handleScroll = () => {
-      const currentScrollPos = window.scrollY;
-      if (currentScrollPos < projectSidebarFirstTriggerRef.current + 100) {
-        if (currentScrollPos > projectSidebarFirstTriggerRef.current) {
-          setOpacity(1);
-        } else {
-          setOpacity(0);
-        }
-      }
+      // const currentScrollPos = window.scrollY;
+      // if (currentScrollPos < projectSidebarFirstTriggerRef.current + 100) {
+      //   if (currentScrollPos > projectSidebarFirstTriggerRef.current) {
+      //     setOpacity(1);
+      //   } else {
+      //     setOpacity(0);
+      //   }
+      // }
     };
 
     window.addEventListener("resize", handleResize);
