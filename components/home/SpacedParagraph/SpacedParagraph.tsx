@@ -1,26 +1,34 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./spacedParagraph.css"
+import useScrollYState from "@/app/store/useScrollYState";
 
 const SpacedParagraph = () => {
   const finalLineWidth = useRef<number>(300);
   const toggleSpacing = useRef<boolean>(false);
 
+  const scrollValue = useScrollYState((state) => state.scrollY);
+  const scrollYRef = useRef(scrollValue);
+  useEffect(() => {
+    scrollYRef.current = scrollValue;
+  }, [scrollValue]);
+
+  let done = false
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY;
       const windowHeight = window.innerHeight;
 
       // For spacing effect
       if (spacingEffectLine1.current && scrollStart.current) {
-        let scrollDistance = 300;
+        let scrollDistance = 400;
         if (
-          window.scrollY > scrollStart.current &&
-          window.scrollY <= scrollStart.current + scrollDistance &&
+          !done &&
+          scrollYRef.current > scrollStart.current &&
+          scrollYRef.current <= scrollStart.current + scrollDistance &&
           spacingEffectLine1.current &&
           finalLineWidth
         ) {
           const percentThere =
-            (window.scrollY - scrollStart.current) / scrollDistance;
+            (scrollYRef.current - scrollStart.current) / scrollDistance;
           const difference = window.innerWidth - finalLineWidth.current;
           spacingEffectLine1.current.style.width = `${
             finalLineWidth.current + (difference - percentThere * difference)
@@ -30,7 +38,7 @@ const SpacedParagraph = () => {
           }
           spacingEffectLine1.current.style.opacity = `${percentThere}`;
         } else if (
-          window.scrollY <= scrollStart.current &&
+          scrollYRef.current <= scrollStart.current &&
           toggleSpacing &&
           toggleSpacing.current === true
         ) {
@@ -38,13 +46,14 @@ const SpacedParagraph = () => {
           toggleSpacing.current = false;
           spacingEffectLine1.current.style.opacity = "0";
         } else if (
-          window.scrollY > scrollStart.current + scrollDistance &&
+          scrollYRef.current > scrollStart.current + scrollDistance &&
           toggleSpacing &&
           toggleSpacing.current === true
         ) {
           spacingEffectLine1.current.style.width = `${finalLineWidth.current}px`;
           toggleSpacing.current = false;
           spacingEffectLine1.current.style.opacity = "1";
+          done = true
         }
       }
     };

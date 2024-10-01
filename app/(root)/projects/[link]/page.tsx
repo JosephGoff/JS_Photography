@@ -18,10 +18,16 @@ import Section_VBOXR from "./Sections/Section_VBOXR";
 import Section_VV2R from "./Sections/Section_VV2R";
 import Section_VBOXV from "./Sections/Section_VBOXV";
 import Section_VVBOX from "./Sections/Section_VVBOX";
-import useProjectSidebarFixed from "@/app/store/useProjectSidebarFixed";
 import ProjectSidebar from "@/components/ProjectSidebar/ProjectSidebar";
+import useScrollYState from "@/app/store/useScrollYState";
 
 const ProjectPage = () => {
+  const scrollValue = useScrollYState((state) => state.scrollY);
+  const scrollYRef = useRef(scrollValue);
+  useEffect(() => {
+    scrollYRef.current = scrollValue;
+  }, [scrollValue]);
+
   const { link } = useParams();
   const project = appData.pages.projects.find((proj) => proj.link === link);
   const projectIndex = appData.pages.projects.findIndex(
@@ -39,19 +45,14 @@ const ProjectPage = () => {
   const nextProject = appData.pages.projects[nextProjectIndex];
 
   // Logic for right sidebar display
-  const {
-    projectSidebarFixed,
-    projectSidebarFirstTrigger,
-    projectSidebarSecondTrigger,
-    hasPassedFirstTrigger,
-    setHasPassedFirstTrigger,
-    setProjectSidebarFixed,
-    setProjectSidebarFirstTrigger,
-    setProjectSidebarSecondTrigger,
-  } = useProjectSidebarFixed();
-  const projectSidebarFirstTriggerRef = useRef(projectSidebarFirstTrigger);
+  const projectSidebarFirstTriggerRef = useRef(0);
   const secondImageRef = useRef<HTMLDivElement>(null);
   const lastImageRef = useRef<HTMLDivElement>(null);
+  const firstSidebarRef = useRef<HTMLDivElement>(null);
+  const fixedSidebarRef = useRef<HTMLDivElement>(null);
+  const [opacity, setOpacity] = useState(0);
+  const projectSidebarFixedRef = useRef<boolean>(false);
+  const projectSidebarSecondTriggerRef = useRef<number>(0);
   let rightSideSet = false;
   let rightSideSet2 = false;
 
@@ -62,12 +63,6 @@ const ProjectPage = () => {
       if (textRef.current) {
         titleOverflowAddition = textRef.current.clientHeight > 100 ? 40 : 0;
       }
-      setProjectSidebarFirstTrigger(
-        secondImageRef.current.offsetTop -
-          window.innerHeight +
-          titleOverflowAddition +
-          45
-      );
       projectSidebarFirstTriggerRef.current =
         secondImageRef.current.offsetTop -
         window.innerHeight +
@@ -84,12 +79,11 @@ const ProjectPage = () => {
       if (textRef.current) {
         titleOverflowAddition = textRef.current.clientHeight > 100 ? 40 : 0;
       }
-      setProjectSidebarSecondTrigger(
+      projectSidebarSecondTriggerRef.current =
         lastImageRef.current.offsetTop -
-          window.innerHeight +
-          titleOverflowAddition +
-          45
-      );
+        window.innerHeight +
+        titleOverflowAddition +
+        45;
       rightSideSet2 = true;
     }
   }, [lastImageRef]);
@@ -106,11 +100,6 @@ const ProjectPage = () => {
   }, [textRef]);
 
   // Sidebar effect transition in
-  const firstSidebarRef = useRef<HTMLDivElement>(null);
-  const fixedSidebarRef = useRef<HTMLDivElement>(null);
-
-  const [opacity, setOpacity] = useState(0);
-
   useEffect(() => {
     // Initial load, hide the first sidebar ref so the transition looks good
     if (firstSidebarRef.current) {
@@ -120,15 +109,6 @@ const ProjectPage = () => {
     const handleResize = () => {
       // Update the sidebar triggers
       if (secondImageRef.current && textRef.current) {
-        setProjectSidebarFirstTrigger(
-          secondImageRef.current.offsetTop -
-            window.innerHeight +
-            45 -
-            textRef.current.clientHeight >
-            100
-            ? 40
-            : 0
-        );
         projectSidebarFirstTriggerRef.current =
           secondImageRef.current.offsetTop -
             window.innerHeight +
@@ -138,16 +118,19 @@ const ProjectPage = () => {
             ? 40
             : 0;
       }
-      if (lastImageRef.current && textRef.current) {
-        setProjectSidebarSecondTrigger(
+      if (
+        lastImageRef.current &&
+        textRef.current &&
+        projectSidebarSecondTriggerRef.current
+      ) {
+        projectSidebarSecondTriggerRef.current =
           lastImageRef.current.offsetTop -
             window.innerHeight +
             45 -
             textRef.current.clientHeight >
-            100
+          100
             ? 40
-            : 0
-        );
+            : 0;
       }
 
       // Calculate margin top for spacing for the project title
@@ -159,14 +142,37 @@ const ProjectPage = () => {
     };
 
     const handleScroll = () => {
-      // const currentScrollPos = window.scrollY;
-      // if (currentScrollPos < projectSidebarFirstTriggerRef.current + 100) {
-      //   if (currentScrollPos > projectSidebarFirstTriggerRef.current) {
-      //     setOpacity(1);
-      //   } else {
-      //     setOpacity(0);
-      //   }
-      // }
+      if (scrollYRef.current && projectSidebarFixedRef) {
+        if (
+          scrollYRef.current >= projectSidebarSecondTriggerRef.current &&
+          projectSidebarFixedRef.current
+        ) {
+          projectSidebarFixedRef.current = false;
+        } else if (
+          scrollYRef.current < projectSidebarSecondTriggerRef.current &&
+          scrollYRef.current >= projectSidebarFirstTriggerRef.current &&
+          !projectSidebarFixedRef.current
+        ) {
+          projectSidebarFixedRef.current = true;
+        } else if (
+          scrollYRef.current < projectSidebarFirstTriggerRef.current &&
+          projectSidebarFixedRef.current
+        ) {
+          projectSidebarFixedRef.current = false;
+        }
+
+        const distanceOfFade = 250;
+        if (
+          scrollYRef.current < projectSidebarFirstTriggerRef.current &&
+          scrollYRef.current >=
+            projectSidebarFirstTriggerRef.current - distanceOfFade
+        ) {
+          const progress =
+            (projectSidebarFirstTriggerRef.current - scrollYRef.current) /
+            distanceOfFade;
+          setOpacity(1 - progress);
+        }
+      }
     };
 
     window.addEventListener("resize", handleResize);
@@ -203,13 +209,12 @@ const ProjectPage = () => {
 
     const scroll = (currentTime: any) => {
       const timeElapsed = currentTime - startTime;
-      const progress = Math.min(timeElapsed / duration, 1); // Ensure it doesn't exceed 1
-      const ease = easeInOutCubic(progress); // Apply easing
+      const progress = Math.min(timeElapsed / duration, 1);
+      const ease = easeInOutCubic(progress);
 
-      window.scrollTo(0, startY + distance * ease); // Scroll to the appropriate Y position
-
+      window.scrollTo(0, startY + distance * ease);
       if (progress < 1) {
-        requestAnimationFrame(scroll); // Continue scrolling until done
+        requestAnimationFrame(scroll);
       } else {
         setScrollingTop(false);
       }
@@ -222,8 +227,8 @@ const ProjectPage = () => {
 
   useEffect(() => {
     const options = {
-      root: null, // viewport
-      threshold: 0.1, // trigger when 10% of the section is visible
+      root: null,
+      threshold: 0.1,
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -257,7 +262,7 @@ const ProjectPage = () => {
 
   return (
     <>
-      {projectSidebarFixed && (
+      {projectSidebarFixedRef.current && (
         <div
           ref={fixedSidebarRef}
           className="lg:flex hidden"
@@ -269,7 +274,6 @@ const ProjectPage = () => {
             right: 0,
             zIndex: 901,
             pointerEvents: "none",
-            opacity: opacity,
             transition: "opacity 1s ease-in-out",
           }}
         >
@@ -351,33 +355,33 @@ const ProjectPage = () => {
         ></div>
 
         {/* First right sidebar - top of link page */}
-        {/* {!projectSidebarFixed && (
+        {!projectSidebarFixedRef.current && (
           <div
             ref={firstSidebarRef}
             className="lg:flex hidden"
             style={{
               height: "100vh",
               width: "calc(220px + 5vw)",
-              marginTop: `${projectSidebarFirstTrigger}px`,
+              marginTop: `${projectSidebarFirstTriggerRef.current}px`,
               right: 0,
               position: "absolute",
               zIndex: 903,
               pointerEvents: "none",
-              opacity: 1,
+              opacity: opacity,
             }}
           >
             <ProjectSidebar />
           </div>
-        )} */}
+        )}
 
         {/* Second right sidebar - bottom of link page */}
-        {!projectSidebarFixed && (
+        {!projectSidebarFixedRef.current && (
           <div
             className="lg:flex hidden"
             style={{
               height: "100vh",
               width: "calc(220px + 5vw)",
-              marginTop: `${projectSidebarSecondTrigger}px`,
+              marginTop: `${projectSidebarSecondTriggerRef.current}px`,
               right: 0,
               position: "absolute",
               zIndex: 903,
